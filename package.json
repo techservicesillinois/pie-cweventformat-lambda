@@ -1,0 +1,34 @@
+{
+    "name": "cloudwatchEventFormat",
+    "version": "0.1.0",
+    "description": "Lambda function that will format CloudWatch Events for email and send to an SNS topic.",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "dependencies": {
+        "bunyan": "^1.8.12",
+        "handlebars": "^4.1.2"
+    },
+    "engines": {
+        "node": "10.0.0"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "author": "Stephen J. Butler <stephen.butler@gmail.com>",
+    "license": "NCSA",
+    "devDependencies": {
+        "aws-sdk": "^2.490.0",
+        "babel-eslint": "^9.0.0",
+        "eslint": "^5.16.0",
+        "eslint-config-react-app": "^4.0.1",
+        "eslint-plugin-flowtype": "^2.50.3",
+        "eslint-plugin-import": "^2.18.0",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.14.2",
+        "eslint-plugin-react-hooks": "^1.5.0",
+        "mocha": "^6.1.4",
+        "should": "^13.2.3"
+    }
+}
