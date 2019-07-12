@@ -3,6 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 
+const handlebars = require('handlebars');
+const handlebarsHelpers = require('handlebars-helpers')({
+    handlebars,
+});
+
+
 const INVALIDPATHPART_RE = /(^\.)|[/\\]/;
 const TEMPLATEDIR = path.join(__dirname, 'templates');
 const TEMPLATEFORMATS = [
@@ -24,7 +30,8 @@ const TEMPLATEFORMATS = [
 ];
 
 const log = bunyan.createLogger({ name: 'cloudwatchEventFormat.handlebars' });
-const fs_stat = util.promisify(fs.stat);
+const fs_readFile = util.promisify(fs.readFile),
+      fs_stat = util.promisify(fs.stat);
 
 
 async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMPLATEDIR) {
@@ -60,8 +67,36 @@ async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMP
     return result;
 }
 
+const _compileTemplateFileCache = {};
+async function compileTemplateFile(file) {
+    if (!_compileTemplateFileCache[file]) {
+        const template = await fs_readFile(file, 'utf8');
+        _compileTemplateFileCache[file] = handlebars.compile(
+            template,
+            { noEscape: true }
+        );
+    }
+
+    return _compileTemplateFileCache[file];
+}
+
+async function render(event, templateDir = TEMPLATEDIR) {
+    const files = await getTemplateFiles(event.source, event['detail-type'], templateDir);
+    const message = {
+        default: JSON.stringify(event),
+    };
+
+    for (const [format, file] of Object.entries(files)) {
+        const template = await compileTemplateFile(path.join(templateDir, file));
+        message[format] = template(event);
+    }
+
+    return message;
+}
+
 
 module.exports = {
     TEMPLATEDIR,
     getTemplateFiles,
+    render,
 };

@@ -1,5 +1,7 @@
 require('should');
 
+const EVENTS = require('./fixtures/events');
+
 
 describe('handlebars', function () {
     const handlebars = require('../src/handlebars');
@@ -31,5 +33,15 @@ describe('handlebars', function () {
                 'email': 'aws.ecs/ECS Task State Change.email.hbs',
             });
         });
+    });
+
+
+    describe('#render', function () {
+        for (const [eventIdx, event] of EVENTS.entries()) {
+            it(`check EVENTS[${eventIdx}]`, async function () {
+                const message = await handlebars.render(event.data);
+                message.should.eql(event.expected);
+            });
+        }
     });
 });
