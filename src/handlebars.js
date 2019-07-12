@@ -4,7 +4,7 @@ const path = require('path');
 const util = require('util');
 
 const handlebars = require('handlebars');
-const handlebarsHelpers = require('handlebars-helpers')({
+require('handlebars-helpers')({
     handlebars,
 });
 
@@ -85,13 +85,18 @@ async function render(event, templateDir = TEMPLATEDIR) {
     const message = {
         default: JSON.stringify(event),
     };
+    let subject = 'CloudWatch Event';
 
     for (const [format, file] of Object.entries(files)) {
         const template = await compileTemplateFile(path.join(templateDir, file));
-        message[format] = template(event);
+
+        if (format === '_subject_')
+            subject = template(event);
+        else
+            message[format] = template(event);
     }
 
-    return message;
+    return { message, subject };
 }
 
 
