@@ -20,7 +20,7 @@
     "license": "NCSA",
     "devDependencies": {
         "aws-sdk": "^2.490.0",
-        "babel-eslint": "^9.0.0",
+        "babel-eslint": "^10.0.0",
         "eslint": "^5.16.0",
         "eslint-config-react-app": "^4.0.1",
         "eslint-plugin-flowtype": "^2.50.3",
@@ -29,6 +29,7 @@
         "eslint-plugin-react": "^7.14.2",
         "eslint-plugin-react-hooks": "^1.5.0",
         "mocha": "^6.1.4",
+        "react": "^16.8.6",
         "should": "^13.2.3"
     }
 }
