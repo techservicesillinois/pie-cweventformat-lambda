@@ -1,13 +1,12 @@
-# Event: {{id}}
+# EVENT: {{id}}
 Account: {{account}}
-Source: {{source}} ({{region}})
-Time: {{time}}
-Resources:{{#each}}
+Source:  {{source}} ({{region}})
+Time:    {{time}}
+Resources:{{#each resources}}
     - {{this}}
 {{/each}}
 
 
-## Detail
-Type: {{detailType}}
+## DETAIL: {{detail-type}}
 
-{{_inspect detail}}
+{{_inspect detail type="md"}}

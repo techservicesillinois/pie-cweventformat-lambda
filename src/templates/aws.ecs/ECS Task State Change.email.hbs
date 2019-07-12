@@ -1,24 +1,21 @@
-# Event
+# EVENT: {{id}}
 Account: {{account}}
-Region: {{region}}
-Source: {{source}}
-Time: {{time}}
-ID: {{id}}
-Resources:{{#each}}
+Source:  {{source}} ({{region}})
+Time:    {{time}}
+Resources:{{#each resources}}
     - {{this}}
 {{/each}}
 
 
 {{#each detail.containers}}
-## Container: {{name}}
+## CONTAINER: {{name}}
 Last Status: {{lastStatus}}
-Exit Code: {{exitCode}}
+Exit Code:   {{exitCode}}
+
 {{/each}}
 
-
-## Detail
+## DETAIL: {{detail-type}}
 Cluster: {{detail.clusterArn}}
-Type: {{detailType}}
-Status: {{detail.lastStatus}} -> {{detail.desiredStatus}}
+Status:  {{detail.lastStatus}}{{#if (not (eq detail.lastStatus detail.desiredStatus))}} -> {{detail.desiredStatus}}{{/if}}
 
-{{_inspect detail}}
+{{_inspect detail type="md"}}
