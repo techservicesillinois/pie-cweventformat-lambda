@@ -128,10 +128,17 @@ async function render(event, templateDir = TEMPLATEDIR) {
     for (const [format, file] of Object.entries(files)) {
         const template = await compileTemplateFile(path.join(templateDir, file));
 
-        if (format === '_subject_')
-            subject = template(event);
-        else
-            message[format] = template(event);
+        switch (format) {
+            case '_subject_':
+                subject = template(event).trim();
+                if (subject.length > 100)
+                    subject = subject.substring(0, 97) + '...';
+                break;
+
+            default:
+                message[format] = template(event);
+                break;
+        }
     }
 
     return { message, subject };
