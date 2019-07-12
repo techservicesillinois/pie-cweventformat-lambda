@@ -1,0 +1,24 @@
+# Event
+Account: {{account}}
+Region: {{region}}
+Source: {{source}}
+Time: {{time}}
+ID: {{id}}
+Resources:{{#each}}
+    - {{this}}
+{{/each}}
+
+
+{{#each detail.containers}}
+## Container: {{name}}
+Last Status: {{lastStatus}}
+Exit Code: {{exitCode}}
+{{/each}}
+
+
+## Detail
+Cluster: {{detail.clusterArn}}
+Type: {{detailType}}
+Status: {{detail.lastStatus}} -> {{detail.desiredStatus}}
+
+{{_inspect detail}}

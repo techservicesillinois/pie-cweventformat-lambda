@@ -1,0 +1,14 @@
+# Event: {{id}}
+Account: {{account}}
+Source: {{source}} ({{region}})
+Time: {{time}}
+Resources:{{#each}}
+    - {{this}}
+{{/each}}
+
+
+## Detail
+Cluster: {{detail.clusterArn}}
+Type: {{detailType}}
+
+{{inspect detail}}
