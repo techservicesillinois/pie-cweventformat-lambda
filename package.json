@@ -4,6 +4,7 @@
     "description": "Lambda function that will format CloudWatch Events for email and send to an SNS topic.",
     "main": "src/index.js",
     "scripts": {
+        "build": "gulp",
         "test": "mocha"
     },
     "dependencies": {
@@ -29,6 +30,10 @@
         "eslint-plugin-jsx-a11y": "^6.2.3",
         "eslint-plugin-react": "^7.14.2",
         "eslint-plugin-react-hooks": "^1.5.0",
+        "gulp": "^4.0.2",
+        "gulp-clean": "^0.4.0",
+        "gulp-cli": "^2.2.0",
+        "gulp-zip": "^5.0.0",
         "mocha": "^6.1.4",
         "react": "^16.8.6",
         "should": "^13.2.3"
