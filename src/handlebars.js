@@ -63,6 +63,7 @@ const _compileTemplateFileCache = {};
  *
  * - source/detail-type.format.hbs
  * - source/default.format.hbs
+ * - detail-type.format.hbs
  * - default.format.hbs
  *
  * The formats are all the ones defined for SNS Publish Message, with the
@@ -80,17 +81,20 @@ async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMP
     const hasEventSource = !!eventSource && !INVALIDPATHPART_RE.test(eventSource);
     if (!hasEventSource)
         log.warn({ eventSource }, 'Invalid event source.');
-    const hasEventDetailType = hasEventSource && !!eventDetailType && !INVALIDPATHPART_RE.test(eventDetailType);
+    const hasEventDetailType = !!eventDetailType && !INVALIDPATHPART_RE.test(eventDetailType);
     if (!hasEventDetailType)
         log.warn({ eventDetailType }, 'Invalid event detail-type.');
 
     const result = {};
     for (const format of TEMPLATEFORMATS) {
         const files = [`default.${format}.hbs`];
-        if (hasEventSource)
-            files.unshift(path.join(eventSource, `default.${format}.hbs`));
         if (hasEventDetailType)
-            files.unshift(path.join(eventSource, `${eventDetailType}.${format}.hbs`));
+            files.unshift(`${eventDetailType}.${format}.hbs`);
+        if (hasEventSource) {
+            files.unshift(path.join(eventSource, `default.${format}.hbs`));
+            if (hasEventDetailType)
+                files.unshift(path.join(eventSource, `${eventDetailType}.${format}.hbs`));
+        }
 
         for (const file of files) {
             try {

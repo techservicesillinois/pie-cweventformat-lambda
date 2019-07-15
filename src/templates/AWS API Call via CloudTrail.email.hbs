@@ -1,0 +1,45 @@
+# EVENT: {{id}}
+Account: {{account}}
+Source:  {{source}} ({{region}})
+Time:    {{time}}
+Resources:
+{{#each resources}}
+- {{this}}
+{{/each}}
+
+
+## USER IDENTITY: {{detail.userIdentity.type}}
+Account:    {{detail.userIdentity.accountId}}
+ARN:        {{detail.userIdentity.arn}}
+Principal:  {{detail.userIdentity.principalId}}
+{{#if (eq detail.userIdentity.type "Root")}}
+User:       {{default detail.userIdentity.userName "(no alias set)"}}
+{{else if (eq detail.userIdentity.type "IAMUser")}}
+User:       {{detail.userIdentity.userName}}
+{{else if (eq detail.userIdentity.type "AssumedRole")}}
+{{detail.userIdentity.sessionContext.sessionIssuer.type}}: {{detai.userIdentity.sessionContext.sessionIssuer.userName}}
+{{else if (eq detail.userIdentity.type "FederatedUser")}}
+{{detail.userIdentity.sessionContext.sessionIssuer.type}}: {{detai.userIdentity.sessionContext.sessionIssuer.userName}}
+{{else if detail.userIdentity.userName}}
+User:       {{detail.userIdentity.userName}}
+{{/if}}
+
+
+## CLOUDTRAIL: {{detail.eventSource}}/{{detail.eventName}} ({{detail.awsRegion}})
+Time:       {{detail.eventTime}}
+Source IP:  {{detail.sourceIPAddress}}
+User Agent: {{detail.userAgent}}
+{{#if detail.requestParameters}}
+Request: {{_inspect detail.requestParameters type="md"}}
+{{/if}}
+{{#if (or detail.errorCode detail.errorMessage)}}
+Error: {{detail.errorMessage}}{{#if detail.errorCode}} (code: {{detail.errorCode}}){{/if}}
+{{/if}}
+{{#if detail.responseElements}}
+Response: {{_inspect detail.responseElements type="md"}}
+{{/if}}
+
+
+## DETAIL: {{detail-type}}
+
+{{_inspect detail type="md"}}

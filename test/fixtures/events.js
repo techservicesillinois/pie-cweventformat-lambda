@@ -319,5 +319,52 @@ module.exports = [
             },
             subject: '[aws.ecs] ECS Container Instance State Change ECS Container Instance State Change ECS Container I...'
         },
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "36eb8523-97d0-4518-b33d-ee3579ff19f0",
+            "detail-type": "AWS API Call via CloudTrail",
+            "source": "aws.s3",
+            "account": "123456789012",
+            "time": "2016-02-20T01:09:13Z",
+            "region": "us-east-1",
+            "resources": [],
+            "detail": {
+                "eventVersion": "1.03",
+                "userIdentity": {
+                    "type": "Root",
+                    "principalId": "123456789012",
+                    "arn": "arn:aws:iam::123456789012:root",
+                    "accountId": "123456789012",
+                    "sessionContext": {
+                        "attributes": {
+                            "mfaAuthenticated": "false",
+                            "creationDate": "2016-02-20T01:05:59Z"
+                        }
+                    }
+                },
+                "eventTime": "2016-02-20T01:09:13Z",
+                "eventSource": "s3.amazonaws.com",
+                "eventName": "CreateBucket",
+                "awsRegion": "us-east-1",
+                "sourceIPAddress": "100.100.100.100",
+                "userAgent": "[S3Console/0.4]",
+                "requestParameters": {
+                    "bucketName": "bucket-test-iad"
+                },
+                "responseElements": null,
+                "requestID": "9D767BCC3B4E7487",
+                "eventID": "24ba271e-d595-4e66-a7fd-9c16cbf8abae",
+                "eventType": "AwsApiCall"
+            }
+        },
+        expected: {
+            message: {
+                default: "{\"version\":\"0\",\"id\":\"36eb8523-97d0-4518-b33d-ee3579ff19f0\",\"detail-type\":\"AWS API Call via CloudTrail\",\"source\":\"aws.s3\",\"account\":\"123456789012\",\"time\":\"2016-02-20T01:09:13Z\",\"region\":\"us-east-1\",\"resources\":[],\"detail\":{\"eventVersion\":\"1.03\",\"userIdentity\":{\"type\":\"Root\",\"principalId\":\"123456789012\",\"arn\":\"arn:aws:iam::123456789012:root\",\"accountId\":\"123456789012\",\"sessionContext\":{\"attributes\":{\"mfaAuthenticated\":\"false\",\"creationDate\":\"2016-02-20T01:05:59Z\"}}},\"eventTime\":\"2016-02-20T01:09:13Z\",\"eventSource\":\"s3.amazonaws.com\",\"eventName\":\"CreateBucket\",\"awsRegion\":\"us-east-1\",\"sourceIPAddress\":\"100.100.100.100\",\"userAgent\":\"[S3Console/0.4]\",\"requestParameters\":{\"bucketName\":\"bucket-test-iad\"},\"responseElements\":null,\"requestID\":\"9D767BCC3B4E7487\",\"eventID\":\"24ba271e-d595-4e66-a7fd-9c16cbf8abae\",\"eventType\":\"AwsApiCall\"}}",
+                email: "# EVENT: 36eb8523-97d0-4518-b33d-ee3579ff19f0\nAccount: 123456789012\nSource:  aws.s3 (us-east-1)\nTime:    2016-02-20T01:09:13Z\nResources:\n\n\n## USER IDENTITY: Root\nAccount:    123456789012\nARN:        arn:aws:iam::123456789012:root\nPrincipal:  123456789012\nUser:       (no alias set)\n\n\n## CLOUDTRAIL: s3.amazonaws.com/CreateBucket (us-east-1)\nTime:       2016-02-20T01:09:13Z\nSource IP:  100.100.100.100\nUser Agent: [S3Console/0.4]\nRequest: \n```json\n{\n  \"bucketName\": \"bucket-test-iad\"\n}\n```\n\n\n\n## DETAIL: AWS API Call via CloudTrail\n\n\n```json\n{\n  \"eventVersion\": \"1.03\",\n  \"userIdentity\": {\n    \"type\": \"Root\",\n    \"principalId\": \"123456789012\",\n    \"arn\": \"arn:aws:iam::123456789012:root\",\n    \"accountId\": \"123456789012\",\n    \"sessionContext\": {\n      \"attributes\": {\n        \"mfaAuthenticated\": \"false\",\n        \"creationDate\": \"2016-02-20T01:05:59Z\"\n      }\n    }\n  },\n  \"eventTime\": \"2016-02-20T01:09:13Z\",\n  \"eventSource\": \"s3.amazonaws.com\",\n  \"eventName\": \"CreateBucket\",\n  \"awsRegion\": \"us-east-1\",\n  \"sourceIPAddress\": \"100.100.100.100\",\n  \"userAgent\": \"[S3Console/0.4]\",\n  \"requestParameters\": {\n    \"bucketName\": \"bucket-test-iad\"\n  },\n  \"responseElements\": null,\n  \"requestID\": \"9D767BCC3B4E7487\",\n  \"eventID\": \"24ba271e-d595-4e66-a7fd-9c16cbf8abae\",\n  \"eventType\": \"AwsApiCall\"\n}\n```\n\n",
+            },
+            subject: '[aws.s3] AWS API Call: s3.amazonaws.com/CreateBucket',
+        }
     }
 ];
