@@ -20,7 +20,7 @@
     "author": "Stephen J. Butler <stephen.butler@gmail.com>",
     "license": "NCSA",
     "devDependencies": {
-        "aws-sdk": "^2.490.0",
+        "aws-sdk": "^2.493.0",
         "babel-eslint": "^10.0.0",
         "eslint": "^5.16.0",
         "eslint-config-react-app": "^4.0.1",
