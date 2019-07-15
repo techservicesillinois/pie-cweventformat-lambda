@@ -2,16 +2,15 @@
 Account: {{account}}
 Source:  {{source}} ({{region}})
 Time:    {{time}}
-Resources:{{#each resources}}
-    - {{this}}
+Resources:
+{{#each resources}}
+- {{this}}
 {{/each}}
 
 
+## CONTAINERS
 {{#each detail.containers}}
-## CONTAINER: {{name}}
-Last Status: {{lastStatus}}
-Exit Code:   {{exitCode}}
-
+{{name}}: {{lastStatus}}{{#if exitCode}} (exit: {{exitCode}}){{/if}}
 {{/each}}
 
 ## DETAIL: {{detail-type}}
