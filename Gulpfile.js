@@ -38,7 +38,7 @@ function pkg() {
 
 function zip() {
     return src('build/*')
-        .pipe(_zip('cloudwatchEventFormat.zip'))
+        .pipe(_zip('cweventFormat.zip'))
         .pipe(dest('dist/'));
 }
 

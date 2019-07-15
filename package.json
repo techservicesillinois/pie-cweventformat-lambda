@@ -1,5 +1,5 @@
 {
-    "name": "cloudwatchEventFormat",
+    "name": "cweventFormat",
     "version": "0.1.0",
     "description": "Lambda function that will format CloudWatch Events for email and send to an SNS topic.",
     "main": "src/index.js",

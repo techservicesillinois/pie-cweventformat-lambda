@@ -29,7 +29,7 @@ const TEMPLATEFORMATS = [
     '_subject_',
 ];
 
-const log = bunyan.createLogger({ name: 'cloudwatchEventFormat.handlebars' });
+const log = bunyan.createLogger({ name: 'cweventFormat.handlebars' });
 const fs_readFile = util.promisify(fs.readFile),
       fs_stat = util.promisify(fs.stat);
 

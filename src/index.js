@@ -3,7 +3,7 @@ const bunyan = require('bunyan');
 
 const hbs = require('handlebars');
 
-const log = bunyan.createLogger({ name: 'cloudwatchEventFormat' });
+const log = bunyan.createLogger({ name: 'cweventFormat' });
 const awsSNS = new AWS.SNS({ apiVersion: '2010-03-31' });
 
 const TEMPLATE_DIR = process.env.TEMPLATE_DIR;
