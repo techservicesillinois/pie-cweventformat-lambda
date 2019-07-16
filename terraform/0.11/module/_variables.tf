@@ -44,6 +44,11 @@ variable "deploy_key" {
     description = "Bucket key that specifies the zip file for the cweventFormat function."
 }
 
+variable "deploy_libkey" {
+    type = "string"
+    description = "Bucket key that specified the zip file for the libs of the cweventForamt function."
+}
+
 variable "notification_topic_arn" {
     type = "string"
     description = "SNS Topic to send formatted notifications to."

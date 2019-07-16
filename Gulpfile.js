@@ -30,17 +30,34 @@ function npm() {
         }
     )
 }
+function npmLibClean() {
+    return src('build/nodejs/node_modules', { read: false })
+        .pipe(_clean());
+}
+function npmLibCopy() {
+    return src('build/node_modules/**/*')
+        .pipe(dest('build/nodejs/node_modules/'));
+}
 
 function pkg() {
     return src('package*.json')
         .pipe(dest('build/'));
 }
 
-function zip() {
-    return src('build/**/*')
+function zipLib() {
+    return src('build/nodejs/**/*', { base: 'build/' })
+        .pipe(_zip('cweventFormat-lib.zip'))
+        .pipe(dest('dist/'));
+}
+
+function zipProject() {
+    return src(['build/src/**/*', 'build/package*.json'], { base: 'build/' })
         .pipe(_zip('cweventFormat.zip'))
         .pipe(dest('dist/'));
 }
 
 exports.clean = clean
-exports.default = series(parallel(hbs, js, series(pkg, npm)), zip);
+exports.default = series(
+    parallel(hbs, js, series(pkg, npm, npmLibClean, npmLibCopy)),
+    parallel(zipLib, zipProject)
+);

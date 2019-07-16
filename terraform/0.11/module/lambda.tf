@@ -7,6 +7,11 @@ data "aws_s3_bucket_object" "lambda" {
     key = "${var.deploy_key}"
 }
 
+data "aws_s3_bucket_object" "lambda_lib" {
+    bucket = "${var.deploy_bucket}"
+    key = "${var.deploy_libkey}"
+}
+
 data "aws_iam_policy_document" "lambda_assume_role" {
     statement {
         effect = "Allow"
@@ -87,6 +92,16 @@ resource "null_resource" "lambda_waiton_roles" {
         command = "echo 'Waiting 30 seconds for policy attachments.'; sleep 30"
     }
 }
+resource "aws_lambda_layer_version" "lambda_lib" {
+    layer_name = "${var.project}${var.revision}-${var.lambda_name}-lib"
+    s3_bucket = "${var.deploy_bucket}"
+    s3_key = "${var.deploy_libkey}"
+    s3_object_version = "${data.aws_s3_bucket_object.lambda_lib.version_id}"
+
+    description = "Library dependencies for the cweventFormat lambda function."
+    license_info = "NCSA"
+    compatible_runtimes = [ "nodejs10.x" ]
+}
 resource "aws_lambda_function" "lambda" {
     depends_on = [ "null_resource.lambda_waiton_roles" ]
 
@@ -94,6 +109,7 @@ resource "aws_lambda_function" "lambda" {
     s3_bucket = "${var.deploy_bucket}"
     s3_key = "${var.deploy_key}"
     s3_object_version = "${data.aws_s3_bucket_object.lambda.version_id}"
+    layers = [ "${aws_lambda_layer_version.lambda_lib.arn}" ]
 
     description = "Format CloudWatch Events for email delivery."
     handler = "src/index.handler"
