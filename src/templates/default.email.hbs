@@ -1,13 +1,17 @@
-# EVENT: {{id}}
+EVENT: {{id}}
+==================================================
 Account: {{account}}
 Source:  {{source}} ({{region}})
 Time:    {{time}}
+{{#if resources}}
+
 Resources:
 {{#each resources}}
 - {{this}}
 {{/each}}
+{{/if}}
 
 
-## DETAIL: {{detail-type}}
-
+DETAIL: {{detail-type}}
+--------------------------------------------------
 {{_inspect detail type="md"}}

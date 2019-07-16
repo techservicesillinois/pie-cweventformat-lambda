@@ -1,14 +1,19 @@
-# EVENT: {{id}}
+EVENT: {{id}}
+==================================================
 Account: {{account}}
 Source:  {{source}} ({{region}})
 Time:    {{time}}
+{{#if resources}}
+
 Resources:
 {{#each resources}}
 - {{this}}
 {{/each}}
+{{/if}}
 
 
-## USER IDENTITY: {{detail.userIdentity.type}}
+USER IDENTITY: {{detail.userIdentity.type}}
+--------------------------------------------------
 Account:    {{detail.userIdentity.accountId}}
 ARN:        {{detail.userIdentity.arn}}
 Principal:  {{detail.userIdentity.principalId}}
@@ -25,7 +30,8 @@ User:       {{detail.userIdentity.userName}}
 {{/if}}
 
 
-## CLOUDTRAIL: {{detail.eventSource}}/{{detail.eventName}} ({{detail.awsRegion}})
+CLOUDTRAIL: {{detail.eventSource}}/{{detail.eventName}} ({{detail.awsRegion}})
+--------------------------------------------------
 Time:       {{detail.eventTime}}
 Source IP:  {{detail.sourceIPAddress}}
 User Agent: {{detail.userAgent}}
@@ -40,6 +46,6 @@ Response: {{_inspect detail.responseElements type="md"}}
 {{/if}}
 
 
-## DETAIL: {{detail-type}}
-
+DETAIL: {{detail-type}}
+--------------------------------------------------
 {{_inspect detail type="md"}}
