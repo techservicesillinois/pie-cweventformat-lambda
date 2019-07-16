@@ -18,6 +18,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_errors_hi" {
     unit = "Count"
     evaluation_periods = 1
     period = 300
+    treat_missing_data = "ignore"
 
     alarm_actions = [
         "${local.notification_topic_arn}",
