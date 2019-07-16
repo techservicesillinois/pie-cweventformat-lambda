@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const bunyan = require('bunyan');
 
-const hbs = require('handlebars');
+const hbs = require('./handlebars');
 
 const log = bunyan.createLogger({ name: 'cweventFormat' });
 const awsSNS = new AWS.SNS({ apiVersion: '2010-03-31' });
@@ -21,5 +21,5 @@ exports.handler = async (event, context) => {
         MessageStructure: 'json',
         Subject: subject,
         TopicArn: SNS_TOPIC_ARN,
-    });
+    }).promise();
 };
