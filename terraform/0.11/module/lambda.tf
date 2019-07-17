@@ -99,7 +99,6 @@ resource "aws_lambda_layer_version" "lambda_lib" {
     s3_object_version = "${data.aws_s3_bucket_object.lambda_lib.version_id}"
 
     description = "Library dependencies for the cweventFormat lambda function."
-    license_info = "NCSA"
     compatible_runtimes = [ "nodejs10.x" ]
 }
 resource "aws_lambda_function" "lambda" {
