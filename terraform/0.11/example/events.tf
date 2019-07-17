@@ -13,6 +13,13 @@ module "cweventFormat" {
     lambda_timezone = "America/Chicago"
 
     event_rule_patterns = {
+        aws_health = <<PATTERN
+{
+    "source": [ "aws.health" ],
+    "detail-type": [ "AWS Health Event" ]
+}
+PATTERN
+
         ec2_state_change = <<PATTERN
 {
     "source": [ "aws.ec2" ],

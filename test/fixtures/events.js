@@ -366,5 +366,75 @@ module.exports = [
             },
             subject: '[aws.s3] AWS API Call: s3.amazonaws.com/CreateBucket',
         }
-    }
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "121345678-1234-1234-1234-123456789012",
+            "detail-type": "AWS Health Event",
+            "source": "aws.health",
+            "account": "123456789012",
+            "time": "2016-06-05T06:27:57Z",
+            "region": "ap-southeast-2",
+            "resources": [],
+            "detail": {
+                "eventArn": "arn:aws:health:ap-southeast-2::event/AWS_ELASTICLOADBALANCING_API_ISSUE_90353408594353980",
+                "service": "ELASTICLOADBALANCING",
+                "eventTypeCode": "AWS_ELASTICLOADBALANCING_API_ISSUE",
+                "eventTypeCategory": "issue",
+                "startTime": "Sat, 11 Jun 2016 05:01:10 GMT",
+                "endTime": "Sat, 11 Jun 2016 05:30:57 GMT",
+                "eventDescription": [{
+                    "language": "en_US",
+                    "latestDescription": "A description of the event will be provided here"
+                }]
+            }
+        },
+        expected: {
+            message: {
+                default: "{\"version\":\"0\",\"id\":\"121345678-1234-1234-1234-123456789012\",\"detail-type\":\"AWS Health Event\",\"source\":\"aws.health\",\"account\":\"123456789012\",\"time\":\"2016-06-05T06:27:57Z\",\"region\":\"ap-southeast-2\",\"resources\":[],\"detail\":{\"eventArn\":\"arn:aws:health:ap-southeast-2::event/AWS_ELASTICLOADBALANCING_API_ISSUE_90353408594353980\",\"service\":\"ELASTICLOADBALANCING\",\"eventTypeCode\":\"AWS_ELASTICLOADBALANCING_API_ISSUE\",\"eventTypeCategory\":\"issue\",\"startTime\":\"Sat, 11 Jun 2016 05:01:10 GMT\",\"endTime\":\"Sat, 11 Jun 2016 05:30:57 GMT\",\"eventDescription\":[{\"language\":\"en_US\",\"latestDescription\":\"A description of the event will be provided here\"}]}}",
+                email: "\nA description of the event will be provided here\n\n\nEVENT: 121345678-1234-1234-1234-123456789012\n==================================================\nAccount: 123456789012\nSource:  aws.health (ap-southeast-2)\nTime:    Sunday, June 5, 2016 1:27 AM -05:00\n\n\nSERVICE: ELASTICLOADBALANCING\n--------------------------------------------------\nType Code:     AWS_ELASTICLOADBALANCING_API_ISSUE\nType Category: issue\nStart:         Sat, 11 Jun 2016 05:01:10 GMT\nEnd:           Sat, 11 Jun 2016 05:30:57 GMT\n\n\nDETAIL: AWS Health Event\n--------------------------------------------------\n\n```json\n{\n  \"eventArn\": \"arn:aws:health:ap-southeast-2::event/AWS_ELASTICLOADBALANCING_API_ISSUE_90353408594353980\",\n  \"service\": \"ELASTICLOADBALANCING\",\n  \"eventTypeCode\": \"AWS_ELASTICLOADBALANCING_API_ISSUE\",\n  \"eventTypeCategory\": \"issue\",\n  \"startTime\": \"Sat, 11 Jun 2016 05:01:10 GMT\",\n  \"endTime\": \"Sat, 11 Jun 2016 05:30:57 GMT\",\n  \"eventDescription\": [\n    {\n      \"language\": \"en_US\",\n      \"latestDescription\": \"A description of the event will be provided here\"\n    }\n  ]\n}\n```\n\n",
+            },
+            subject: "[aws.health] AWS_ELASTICLOADBALANCING_API_ISSUE",
+        }
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "121345678-1234-1234-1234-123456789012",
+            "detail-type": "AWS Health Event",
+            "source": "aws.health",
+            "account": "123456789012",
+            "time": "2016-06-05T06:27:57Z",
+            "region": "us-west-2",
+            "resources": [
+                "i-abcd1111"
+            ],
+            "detail": {
+                "eventArn": "arn:aws:health:us-west-2::event/AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED_90353408594353980",
+                "service": "EC2",
+                "eventTypeCode": "AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED",
+                "eventTypeCategory": "issue",
+                "startTime": "Sat, 05 Jun 2016 15:10:09 GMT",
+                "eventDescription": [{
+                    "language": "en_US",
+                    "latestDescription": "A description of the event will be provided here"
+                }],
+                "affectedEntities": [{
+                    "entityValue": "i-abcd1111",
+                    "tags": {
+                        "stage": "prod",
+                        "app": "my-app"
+                    }
+                }]
+            }
+        },
+        expected: {
+            message: {
+                default: "{\"version\":\"0\",\"id\":\"121345678-1234-1234-1234-123456789012\",\"detail-type\":\"AWS Health Event\",\"source\":\"aws.health\",\"account\":\"123456789012\",\"time\":\"2016-06-05T06:27:57Z\",\"region\":\"us-west-2\",\"resources\":[\"i-abcd1111\"],\"detail\":{\"eventArn\":\"arn:aws:health:us-west-2::event/AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED_90353408594353980\",\"service\":\"EC2\",\"eventTypeCode\":\"AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED\",\"eventTypeCategory\":\"issue\",\"startTime\":\"Sat, 05 Jun 2016 15:10:09 GMT\",\"eventDescription\":[{\"language\":\"en_US\",\"latestDescription\":\"A description of the event will be provided here\"}],\"affectedEntities\":[{\"entityValue\":\"i-abcd1111\",\"tags\":{\"stage\":\"prod\",\"app\":\"my-app\"}}]}}",
+                email: "\nA description of the event will be provided here\n\n\nEVENT: 121345678-1234-1234-1234-123456789012\n==================================================\nAccount: 123456789012\nSource:  aws.health (us-west-2)\nTime:    Sunday, June 5, 2016 1:27 AM -05:00\n\nResources:\n- i-abcd1111\n\n\nSERVICE: EC2\n--------------------------------------------------\nType Code:     AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED\nType Category: issue\nStart:         Sat, 05 Jun 2016 15:10:09 GMT\nEnd:           (none)\n\nAffected:\n- i-abcd1111\n\n\nDETAIL: AWS Health Event\n--------------------------------------------------\n\n```json\n{\n  \"eventArn\": \"arn:aws:health:us-west-2::event/AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED_90353408594353980\",\n  \"service\": \"EC2\",\n  \"eventTypeCode\": \"AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED\",\n  \"eventTypeCategory\": \"issue\",\n  \"startTime\": \"Sat, 05 Jun 2016 15:10:09 GMT\",\n  \"eventDescription\": [\n    {\n      \"language\": \"en_US\",\n      \"latestDescription\": \"A description of the event will be provided here\"\n    }\n  ],\n  \"affectedEntities\": [\n    {\n      \"entityValue\": \"i-abcd1111\",\n      \"tags\": {\n        \"stage\": \"prod\",\n        \"app\": \"my-app\"\n      }\n    }\n  ]\n}\n```\n\n",
+            },
+            subject: "[aws.health] AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED",
+        }
+    },
 ];

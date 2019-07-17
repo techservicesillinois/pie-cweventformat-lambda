@@ -1,0 +1,25 @@
+{{#each detail.eventDescription}}{{#if (eq language "en_US")}}
+{{latestDescription}}
+{{/if}}{{/each}}
+
+{{> eventInfo}}
+
+
+SERVICE: {{detail.service}}
+--------------------------------------------------
+Type Code:     {{detail.eventTypeCode}}
+Type Category: {{detail.eventTypeCategory}}
+Start:         {{default detail.startTime "(none)"}}
+End:           {{default detail.endTime "(none)"}}
+{{#if detail.affectedEntities}}
+
+Affected:
+{{#each detail.affectedEntities}}
+- {{entityValue}}{{#if tags.Name}} ({{tags.Name}}){{/if}}
+{{/each}}
+{{/if}}
+
+
+DETAIL: {{detail-type}}
+--------------------------------------------------
+{{_inspect detail type="md"}}
