@@ -21,7 +21,7 @@ User:       {{detail.userIdentity.userName}}
 
 CLOUDTRAIL: {{detail.eventSource}}/{{detail.eventName}} ({{detail.awsRegion}})
 --------------------------------------------------
-Time:       {{detail.eventTime}}
+Time:       {{moment detail.eventTime "LLLL Z"}}
 Source IP:  {{detail.sourceIPAddress}}
 User Agent: {{detail.userAgent}}
 {{#if detail.requestParameters}}

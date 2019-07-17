@@ -72,6 +72,12 @@ variable "lambda_name" {
     default = "cweventFormat"
 }
 
+variable "lambda_timezone" {
+    type = "string"
+    description = "Timezone name to set when running the lambda function (America/Chicago, UTC, etc)."
+    default = "UTC"
+}
+
 
 # =========================================================
 # Logs

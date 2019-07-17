@@ -5,7 +5,7 @@
     "main": "src/index.js",
     "scripts": {
         "build": "gulp",
-        "test": "mocha"
+        "test": "TZ='America/Chicago' mocha"
     },
     "dependencies": {
         "bunyan": "^1.8.12",

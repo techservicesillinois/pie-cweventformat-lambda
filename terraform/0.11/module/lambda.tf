@@ -120,6 +120,7 @@ resource "aws_lambda_function" "lambda" {
     environment {
         variables = {
             SNS_TOPIC_ARN = "${local.notification_topic_arn}"
+            TZ = "${var.lambda_timezone}"
         }
     }
 
