@@ -3,7 +3,7 @@
 # =========================================================
 
 locals {
-    notification_topic_arn = "${var.notification_topic_arn == "" ? aws_sns_topic.notification.0.arn : var.notification_topic_arn}"
+    notification_topic_arn = "${var.notification_topic_arn == "" ? join("", aws_sns_topic.notification.*.arn) : var.notification_topic_arn}"
 }
 
 
