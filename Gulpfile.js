@@ -40,7 +40,7 @@ function npmLibCopy() {
 }
 
 function pkg() {
-    return src('package*.json')
+    return src(['package*.json', '*.md'])
         .pipe(dest('build/'));
 }
 
@@ -51,7 +51,7 @@ function zipLib() {
 }
 
 function zipProject() {
-    return src(['build/src/**/*', 'build/package*.json'], { base: 'build/' })
+    return src(['build/src/**/*', 'build/package*.json', 'build/*.md'], { base: 'build/' })
         .pipe(_zip('cweventFormat.zip'))
         .pipe(dest('dist/'));
 }
