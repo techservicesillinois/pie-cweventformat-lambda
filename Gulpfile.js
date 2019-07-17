@@ -31,7 +31,7 @@ function npm() {
     )
 }
 function npmLibClean() {
-    return src('build/nodejs/node_modules', { read: false })
+    return src('build/nodejs/node_modules', { read: false, allowEmpty: true })
         .pipe(_clean());
 }
 function npmLibCopy() {
