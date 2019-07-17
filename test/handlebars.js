@@ -4,7 +4,10 @@ const EVENTS = require('./fixtures/events');
 
 
 describe('handlebars', function () {
-    const handlebars = require('../src/handlebars');
+    let handlebars;
+    before('init handlebars', async function () {
+        handlebars = await require('../src/handlebars')();
+    });
 
     describe('#getTemplateFiles', function () {
         it('default templates', async function () {

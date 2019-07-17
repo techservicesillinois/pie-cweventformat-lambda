@@ -1,6 +1,7 @@
 const bunyan = require('bunyan');
 const fs = require('fs');
 const path = require('path');
+const readdir = require('recursive-readdir');
 const util = require('util');
 
 const handlebars = require('handlebars');
@@ -114,6 +115,37 @@ async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMP
 }
 
 /**
+ * Initialize handlebars for use in our templates. Right now, this primarily
+ * finds and registers the partials.
+ *
+ * @param {string} templateDir Optional template directory to use. Returned files
+ *      will be relative to this value.
+ * @return {object} Returns the exports of this module.
+ */
+async function initHandlebars({ templateDir = TEMPLATEDIR } = {}) {
+    const partialFiles = await readdir(
+        path.join(templateDir, 'partials'),
+        [
+            (f, s) => s.isFile() && !f.endsWith('.hbs'),
+        ]
+    );
+
+    for (const partialFile of partialFiles) {
+        const partialName = path.basename(partialFile, '.hbs');
+        const partial = await fs_readFile(partialFile, 'utf8');
+
+        log.info({ partialName, partialFile }, 'Registering partial');
+        handlebars.registerPartial(partialName, partial);
+    }
+
+    return {
+        TEMPLATEDIR,
+        getTemplateFiles,
+        render,
+    };
+}
+
+/**
  * Render an event using the best template possible using Handlebars.
  *
  * @param {object} event CloudWatch Event will a `source` and `detail-type`.
@@ -149,8 +181,4 @@ async function render(event, templateDir = TEMPLATEDIR) {
 }
 
 
-module.exports = {
-    TEMPLATEDIR,
-    getTemplateFiles,
-    render,
-};
+module.exports = initHandlebars;

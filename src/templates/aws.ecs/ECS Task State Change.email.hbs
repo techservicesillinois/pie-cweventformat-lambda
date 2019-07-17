@@ -1,15 +1,4 @@
-EVENT: {{id}}
-==================================================
-Account: {{account}}
-Source:  {{source}} ({{region}})
-Time:    {{time}}
-{{#if resources}}
-
-Resources:
-{{#each resources}}
-- {{this}}
-{{/each}}
-{{/if}}
+{{> eventInfo}}
 
 
 CONTAINERS
@@ -19,7 +8,7 @@ CONTAINERS
 {{/each}}
 
 
- DETAIL: {{detail-type}}
+DETAIL: {{detail-type}}
 --------------------------------------------------
 Cluster: {{detail.clusterArn}}
 Status:  {{detail.lastStatus}}{{#if (not (eq detail.lastStatus detail.desiredStatus))}} -> {{detail.desiredStatus}}{{/if}}

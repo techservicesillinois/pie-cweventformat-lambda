@@ -1,15 +1,4 @@
-EVENT: {{id}}
-==================================================
-Account: {{account}}
-Source:  {{source}} ({{region}})
-Time:    {{time}}
-{{#if resources}}
-
-Resources:
-{{#each resources}}
-- {{this}}
-{{/each}}
-{{/if}}
+{{> eventInfo}}
 
 
 USER IDENTITY: {{detail.userIdentity.type}}
