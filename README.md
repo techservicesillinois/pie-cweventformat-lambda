@@ -5,6 +5,10 @@ custom templates before publishing them to an SNS Topic. This will produce an
 email that is much easier to read than the default, and also deliver to other
 endpoints the same as before.
 
+- **License:** University of Illinois/NCSA Open Source License
+- **Organization:** University of Illinois at Urbana-Champaign, Technology Services
+- **Author:** [Stephen J. Butler](mailto:stephen.butler@gmail.com)
+
 ## Lambda Function
 
 The next couple sections describe the low level operation and building of the
