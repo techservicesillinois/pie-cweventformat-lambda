@@ -28,6 +28,27 @@ const ARN_MAP_RE = {
     'dynamodb': [
         /^arn:(?<partition>[^:]*):(?<service>dynamodb):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>table)\/(?<resource>[^/]*)\/stream\/(?<dynamodbStream>.+)$/,
     ],
+    'elasticloadbalancing': [
+        /^arn:(?<partition>[^:]*):(?<service>elasticloadbalancing):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>targetgroup)\/(?<resource>[^/]*)\/(?<elbv2ResourceID>.+)$/,
+        /^arn:(?<partition>[^:]*):(?<service>elasticloadbalancing):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^/]+)\/(?<elbv2Type>app|net)\/(?<resource>[^/]*)\/(?<elbv2ResourceID>[^/]+)(?:\/(?<elbv2ListenerID>[^/]+)(?:\/(?<elbv2RuleID>.+))?)?$/,
+    ],
+    'iam': [
+        /^arn:(?<partition>[^:]*):(?<service>iam):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^/]*)\/(?<resource>.+)$/,
+    ],
+    'secretsmanager': [
+        /^arn:(?<partition>[^:]*):(?<service>secretsmanager):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^:]*):(?<resource>.+)$/,
+    ],
+    'sns': [
+        /^arn:(?<partition>[^:]*):(?<service>sns):(?<region>[^:]*):(?<accountID>[^:]*):(?<resource>[^:]+)(?::(?<snsSubscriptionID>.+))?$/,
+    ],
+    's3': [
+        /^arn:(?<partition>[^:]*):(?<service>s3):(?<region>[^:]*):(?<accountID>[^:]*):(?<resource>[^/]+)(?:\/(?<s3Key>.*))?$/,
+    ],
+    'storagegateway': [
+        /^arn:(?<partition>[^:]*):(?<service>storagegateway):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>gateway)\/(?<resource>[^/]*)\/volume\/(?<sgwVolumeID>.+)$/,
+        /^arn:(?<partition>[^:]*):(?<service>storagegateway):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>gateway)\/(?<resource>[^/]*)\/target\/(?<sgwTargetID>.+)$/,
+        /^arn:(?<partition>[^:]*):(?<service>storagegateway):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>gateway)\/(?<resource>[^/]*)\/device\/(?<sgwDeviceID>.+)$/,
+    ],
     '_default_': [
         /^arn:(?<partition>[^:]*):(?<service>[^:]*):(?<region>[^:]*):(?<accountID>[^:]*):(?<resource>[^:/]*)$/,
         /^arn:(?<partition>[^:]*):(?<service>[^:]*):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^:/]*)\/(?<resource>[^:/]*)(?:[:/](?<qualifier>.*))?$/,
