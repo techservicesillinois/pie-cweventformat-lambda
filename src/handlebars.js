@@ -1,5 +1,5 @@
 const bunyan = require('bunyan');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 const readdir = require('recursive-readdir');
 const util = require('util');
@@ -31,8 +31,6 @@ const TEMPLATEFORMATS = [
 ];
 
 const log = bunyan.createLogger({ name: 'cweventFormat.handlebars' });
-const fs_readFile = util.promisify(fs.readFile),
-      fs_stat = util.promisify(fs.stat);
 
 
 /**
@@ -47,7 +45,7 @@ const fs_readFile = util.promisify(fs.readFile),
  */
 async function compileTemplateFile(file) {
     if (!_compileTemplateFileCache[file]) {
-        const template = await fs_readFile(file, 'utf8');
+        const template = await fs.readFile(file, 'utf8');
         _compileTemplateFileCache[file] = handlebars.compile(
             template,
             { noEscape: true }
@@ -99,7 +97,7 @@ async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMP
 
         for (const file of files) {
             try {
-                const st = await fs_stat(path.join(templateDir, file));
+                const st = await fs.stat(path.join(templateDir, file));
                 if (st.isFile()) {
                     result[format] = file;
                     break;
@@ -132,7 +130,7 @@ async function initHandlebars({ templateDir = TEMPLATEDIR } = {}) {
 
     for (const partialFile of partialFiles) {
         const partialName = path.basename(partialFile, '.hbs');
-        const partial = await fs_readFile(partialFile, 'utf8');
+        const partial = await fs.readFile(partialFile, 'utf8');
 
         log.info({ partialName, partialFile }, 'Registering partial');
         handlebars.registerPartial(partialName, partial);

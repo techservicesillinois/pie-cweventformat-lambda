@@ -66,11 +66,11 @@ function parseARN(arn) {
     }
 
     const serviceMatch = ARN_SERVICE_RE.exec(arn);
-    if (!serviceMatch || !serviceMatch.groups.service) {
+    const service = serviceMatch?.groups?.service;
+    if (!service) {
         log.debug({ arn }, 'Failed to match service part.');
         return {};
     }
-    const service = serviceMatch.groups.service;
     const serviceREs = [
         ...(ARN_MAP_RE[service] || []),
         ...ARN_MAP_RE._default_,
