@@ -17,7 +17,7 @@ the build phase and then skip to the Terraform section.
 
 ### Building
 
-This is a NodeJS 10.x project that builds using Gulp. Building should be as
+This is a NodeJS 14.x project that builds using Gulp. Building should be as
 simple as running these commands from the project directory:
 
 ```bash
@@ -80,17 +80,6 @@ The terraform module will create and manage these resources for you:
 - **CloudWatch Metric Alarm:** alarm that alerts on errors in the Lambda Function.
   This publishes to the SNS Topic.
 
-### Variables: Cloud First
-
-These variables are defined by the Cloud First initiative.
-
-| Name        | Default | Description |
-| ----------- | ------- | ----------- |
-| service     |         | Service name (match Service Catalog where possible). |
-| contact     |         | Service email address. |
-| environment | ""      | Production, Test, Development, Green, Blue, etc. |
-| revision    | ""      | Revision identified for this green-blue deployment. |
-
 ### Variables: Common
 
 These variables are used by the project and are common to many of the components
@@ -98,21 +87,21 @@ it manages.
 
 | Name                   | Default | Description |
 | ---------------------- | ------- | ----------- |
-| project                |         | Name for the infrastructure project. This will be included in resource names and tags where possible. Something short, all lowercase, and simple. |
+| name_prefix            |         | Name prefix for the infrastructure project. This will be included in resource names and tags where possible. Something short, all lowercase, and simple. |
 | deploy_bucket          |         | Bucket name to deploy the lambda code from. |
 | deploy_key             |         | Bucket key that specifies the zip file for the cweventFormat function. |
 | deploy_libkey          |         | Bucket key that specified the zip file for the libs of the cweventForamt function. |
-| notification_topic_arn | ""      | SNS Topic to send formatted notifications to. If you do not specify a value here then an SNS Topic is created for you. |
-| event_rule_patterns    | {}      | CloudWatch Event Rules patterns in a map of NAME = PATTERN. You do not need to specify patterns here, and can instead do them in your own terraform code. If you do, you will need a `aws_cloudwatch_event_rule`, `aws_cloudwatch_event_target`, and `aws_lambda_permission` resources for each pattern. |
+| notification_topic_arn | `null`  | SNS Topic to send formatted notifications to. If you do not specify a value here then an SNS Topic is created for you. |
+| event_rule_patterns    | `{}`    | CloudWatch Event Rules patterns in a map of NAME = PATTERN. You do not need to specify patterns here, and can instead do them in your own terraform code. If you do, you will need a `aws_cloudwatch_event_rule`, `aws_cloudwatch_event_target`, and `aws_lambda_permission` resources for each pattern. |
 
 ### Variables: Lambda
 
 These variables are used to configure the Lambda Function.
 
-| Name            | Default         | Description |
-| --------------- | --------------- | ----------- |
-| lambda_name     | "cweventFormat" | Base name (without the project) to use for the lambda function name. The project and revision will be added as a prefix to this. |
-| lambda_timezone | "UTC"           | Timezone name to set when running the lambda function ("America/Chicago", "UTC", etc). |
+| Name            | Default           | Description |
+| --------------- | ----------------- | ----------- |
+| lambda_name     | `"cweventFormat"` | Base name (without the project) to use for the lambda function name. The project and revision will be added as a prefix to this. |
+| lambda_timezone | `"UTC"`           | Timezone name to set when running the lambda function ("America/Chicago", "UTC", etc). |
 
 ### Variables: Logs
 
@@ -123,8 +112,8 @@ cross-account logging).
 
 | Name                  | Default | Description |
 | --------------------- | ------- | ----------- |
-| log_retention_in_days | 30      | Number of days to retain log streams in CloudWatch Logs. |
-| log_subscription_arn  | ""      | Lambda function ARN or CloudWatch Logs Destination to subscribe to this log group. |
+| log_retention_in_days | `30`    | Number of days to retain log streams in CloudWatch Logs. |
+| log_subscription_arn  | `null`  | Lambda function ARN or CloudWatch Logs Destination to subscribe to this log group. |
 
 ### Outputs
 
@@ -138,4 +127,4 @@ These outputs are useful for other parts of your terraform.
 
 ### Example
 
-Take a look at the `terraform/0.11/example` directory for how to use this module.
+Take a look at the `terraform/1.0/example` directory for how to use this module.
