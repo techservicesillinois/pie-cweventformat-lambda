@@ -3,8 +3,8 @@ module "cweventFormat" {
 
     name_prefix = "example-"
 
-    deploy_zip      = "cweventFormat/dist/cweventFormat.zip"
-    deploy_libzip   = "cweventFormat/dist/cweventFormat-lib.zip"
+    deploy_zip      = "../../../dist/cweventFormat.zip"
+    deploy_libzip   = "../../../dist/cweventFormat-lib.zip"
     lambda_timezone = "America/Chicago"
 
     event_rule_patterns = {
