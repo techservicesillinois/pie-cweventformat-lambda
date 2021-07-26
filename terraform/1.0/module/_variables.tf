@@ -38,6 +38,11 @@ variable "lambda_name" {
     type        = string
     description = "Base name (without the project) to use for the lambda function name."
     default     = "cweventFormat"
+
+    validation {
+        condition     = length(var.lambda_name) > 1 && length(var.lambda_name) <= 48 && can(regex("^([a-zA-Z0-9-_]+)$", var.lambda_name))
+        error_message = "Value must be between 1 and 48 characters long, and contain only letters, numbers, hyphens, and underscores."
+    }
 }
 
 variable "lambda_timezone" {

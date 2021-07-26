@@ -1,0 +1,136 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Deploy a lambda function to format CloudWatch Events for SNS.
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Runtime: nodejs14.x
+    Timeout: 30
+
+Parameters:
+  NotificationTopicARN:
+    Type: String
+    Description: SNS Topic to send formatted notifications to.
+    Default: ""
+
+  LambdaName:
+    Type: String
+    Description: Base name (without the stack prefix) to use for the lambda function name.
+    Default: cweventFormat
+    MinLength: 1
+    MaxLength: 48
+    AllowedPattern: "^([a-zA-Z0-9-_]+)$"
+    ConstraintDescription: LambdaName must be between 1 and 48 characters long, and contain only letters, numbers, hyphens, and underscores.
+  LambdaTimezone:
+    Type: String
+    Description: Timezone name to set when running the lambda function (America/Chicago, UTC, etc).
+    Default: UTC
+    MinLength: 1
+
+  LogRetentionInDays:
+    Type: Number
+    Description: Number of days to retain log streams.
+    Default: 30
+  LogSubscriptionARN:
+    Type: String
+    Description: Lambda function ARN to subscribe to this log group.
+    Default: ""
+
+Conditions:
+  HasNoNotificationTopic: !Equals [ !Ref NotificationTopicARN, "" ]
+  HasLogSubscription: !Not [ !Equals [ !Ref LogSubscriptionARN, "" ] ]
+
+Resources:
+  NotificationTopic:
+    Type: AWS::SNS::Topic
+    Condition: HasNoNotificationTopic
+    Properties:
+      TopicName: !Sub "${AWS::StackName}-${LambdaName}"
+      Tags:
+        - { Key: DataClassification, Value: Sensitive }
+
+  FunctionLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${AWS::StackName}-${LambdaName}"
+      RetentionInDays: !Ref LogRetentionInDays
+  FunctionLogsSubscription:
+    Type: AWS::Logs::SubscriptionFilter
+    Condition: HasLogSubscription
+    Properties:
+      LogGroupName: !Ref FunctionLogs
+      DestinationArn: !Ref LogSubscriptionARN
+      FilterPattern: ""
+
+  Function:
+    Type: AWS::Serverless::Function
+    DependsOn:
+      - FunctionLogs
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-${LambdaName}"
+      Description: Format CloudWatch Events for email delivery.
+      CodeUri: src/
+      Handler: index.handler
+      Environment:
+        Variables:
+          SNS_TOPIC_ARN: !If [ HasNoNotificationTopic, !Ref NotificationTopic, !Ref NotificationTopicARN ]
+          TZ: !Ref LambdaTimezone
+      DeadLetterQueue:
+          Type: SNS
+          TargetArn: !If [ HasNoNotificationTopic, !Ref NotificationTopic, !Ref NotificationTopicARN ]
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - SNSPublishMessagePolicy:
+            TopicName: !If
+              - HasNoNotificationTopic
+              - !GetAtt NotificationTopic.TopicName
+              - !Select [ 5, !Split [ ":", !Ref NotificationTopicARN ] ]
+
+  FunctionErrorsHigh:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${AWS::StackName}-${LambdaName}-ErrorsHigh"
+      AlarmDescription: High number of errors occuring on the CloudWatch Event Format lambda.
+      Namespace: AWS/Lambda
+      Dimensions:
+        - { Name: FunctionName, Value: !Ref Function }
+      MetricName: Errors
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Statistic: Sum
+      Threshold: 5
+      Unit: Count
+      EvaluationPeriods: 1
+      Period: 300
+      TreatMissingData: ignore
+      AlarmActions:
+        - !If [ HasNoNotificationTopic, !Ref NotificationTopic, !Ref NotificationTopicARN ]
+      OKActions:
+        - !If [ HasNoNotificationTopic, !Ref NotificationTopic, !Ref NotificationTopicARN ]
+
+Outputs:
+  LambdaRoleName:
+    Description: Name of the Lambda function role.
+    Value: !Ref FunctionRole
+    Export:
+      Name: !Sub "${AWS::StackName}:LambdaRoleName"
+  LambdaRoleARN:
+    Description: ARN of the Lambda function role.
+    Value: !GetAtt FunctionRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}:LambdaRoleARN"
+  LambdaFunctionName:
+    Description: Name of the Lambda function.
+    Value: !Ref Function
+    Export:
+      Name: !Sub "${AWS::StackName}:LambdaFunctionName"
+  LambdaFunctionARN:
+    Description: ARN of the Lambda function.
+    Value: !GetAtt Function.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}:LambdaFunctionARN"
+  NotificationTopicARN:
+    Description: ARN of the notification topic.
+    Value: !If [ HasNoNotificationTopic, !Ref NotificationTopic, !Ref NotificationTopicARN ]
+    Export:
+      Name: !Sub "${AWS::StackName}:NotificationTopicARN"

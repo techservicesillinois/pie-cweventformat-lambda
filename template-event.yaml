@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Trigger a deployed cweventFormat Lambda with a CloudWatch Event
+
+Parameters:
+  LambdaStackName:
+    Type: String
+    Description: Name of the CloudFormation Stack used to deploy the cweventFormat Lambda.
+  EventPattern:
+    Type: String
+    Description: CloudWatch Event pattern to trigger the lambda on.
+
+Resources:
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: !Sub
+        - "Managed event rule for ${FunctionName} lambda."
+        - FunctionName:
+            Fn::ImportValue:
+              !Sub "${LambdaStackName}:LambdaFunctionName"
+      EventPattern: !Ref EventPattern
+      Targets:
+        - Id: !Sub "${AWS::StackName}-LambdaFunctionARN"
+          Arn:
+            Fn::ImportValue:
+              !Sub "${LambdaStackName}:LambdaFunctionARN"
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::ImportValue:
+          !Sub "${LambdaStackName}:LambdaFunctionName"
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt EventRule.Arn
