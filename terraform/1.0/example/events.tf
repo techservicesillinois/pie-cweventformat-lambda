@@ -3,9 +3,8 @@ module "cweventFormat" {
 
     name_prefix = "example-"
 
-    deploy_bucket   = "uiuc-sbutler1-sandbox"
-    deploy_key      = "cweventFormat/lambda/cweventFormat.zip"
-    deploy_libkey   = "cweventFormat/lambda/cweventFormat-lib.zip"
+    deploy_zip      = "cweventFormat/dist/cweventFormat.zip"
+    deploy_libzip   = "cweventFormat/dist/cweventFormat-lib.zip"
     lambda_timezone = "America/Chicago"
 
     event_rule_patterns = {

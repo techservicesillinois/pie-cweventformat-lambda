@@ -2,16 +2,6 @@
 # Data
 # =========================================================
 
-data "aws_s3_bucket_object" "lambda" {
-    bucket = var.deploy_bucket
-    key    = var.deploy_key
-}
-
-data "aws_s3_bucket_object" "lambda_lib" {
-    bucket = var.deploy_bucket
-    key    = var.deploy_libkey
-}
-
 data "aws_iam_policy_document" "lambda_assume_role" {
     statement {
         effect = "Allow"
@@ -86,9 +76,8 @@ resource "aws_iam_role_policy" "lambda" {
 
 resource "aws_lambda_layer_version" "lambda_lib" {
     layer_name        = "${local.lambda_name}-lib"
-    s3_bucket         = var.deploy_bucket
-    s3_key            = var.deploy_libkey
-    s3_object_version = data.aws_s3_bucket_object.lambda_lib.version_id
+    filename          = var.deploy_libzip
+    source_code_hash  = filebase64sha256(var.deploy_libzip)
 
     description         = "Library dependencies for the cweventFormat lambda function."
     compatible_runtimes = [ "nodejs14.x" ]
@@ -100,9 +89,8 @@ resource "aws_lambda_function" "lambda" {
     ]
 
     function_name     = local.lambda_name
-    s3_bucket         = var.deploy_bucket
-    s3_key            = var.deploy_key
-    s3_object_version = data.aws_s3_bucket_object.lambda.version_id
+    filename          = var.deploy_zip
+    source_code_hash  = filebase64sha256(var.deploy_zip)
     layers            = [ aws_lambda_layer_version.lambda_lib.arn ]
 
     description = "Format CloudWatch Events for email delivery."

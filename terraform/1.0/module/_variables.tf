@@ -7,19 +7,14 @@ variable "name_prefix" {
     description = "Name prefix for the infrastructure project. This will be included in resource names and tags where possible."
 }
 
-variable "deploy_bucket" {
+variable "deploy_zip" {
     type        = string
-    description = "Bucket name to deploy resources from."
+    description = "File path that specifies the zip file for the cweventFormat function."
 }
 
-variable "deploy_key" {
+variable "deploy_libzip" {
     type        = string
-    description = "Bucket key that specifies the zip file for the cweventFormat function."
-}
-
-variable "deploy_libkey" {
-    type        = string
-    description = "Bucket key that specified the zip file for the libs of the cweventForamt function."
+    description = "File path that specified the zip file for the libs of the cweventForamt function."
 }
 
 variable "notification_topic_arn" {

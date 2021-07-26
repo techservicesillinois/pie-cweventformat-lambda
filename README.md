@@ -88,9 +88,8 @@ it manages.
 | Name                   | Default | Description |
 | ---------------------- | ------- | ----------- |
 | name_prefix            |         | Name prefix for the infrastructure project. This will be included in resource names and tags where possible. Something short, all lowercase, and simple. |
-| deploy_bucket          |         | Bucket name to deploy the lambda code from. |
-| deploy_key             |         | Bucket key that specifies the zip file for the cweventFormat function. |
-| deploy_libkey          |         | Bucket key that specified the zip file for the libs of the cweventForamt function. |
+| deploy_zip             |         | File path that specifies the zip file for the cweventFormat function. |
+| deploy_libzip          |         | File path that specified the zip file for the libs of the cweventForamt function. |
 | notification_topic_arn | `null`  | SNS Topic to send formatted notifications to. If you do not specify a value here then an SNS Topic is created for you. |
 | event_rule_patterns    | `{}`    | CloudWatch Event Rules patterns in a map of NAME = PATTERN. You do not need to specify patterns here, and can instead do them in your own terraform code. If you do, you will need a `aws_cloudwatch_event_rule`, `aws_cloudwatch_event_target`, and `aws_lambda_permission` resources for each pattern. |
 
