@@ -21,6 +21,7 @@ This is a NodeJS 14.x project that builds using Gulp. Building should be as
 simple as running these commands from the project directory:
 
 ```bash
+cd src/
 npm install
 npm run-script build
 ```

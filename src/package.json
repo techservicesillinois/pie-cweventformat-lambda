@@ -4,7 +4,7 @@
     "description": "Lambda function that will format CloudWatch Events for email and send to an SNS topic.",
     "main": "src/index.js",
     "scripts": {
-        "build": "gulp",
+        "build": "gulp --cwd ..",
         "test": "TZ='America/Chicago' mocha"
     },
     "dependencies": {

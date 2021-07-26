@@ -9,12 +9,12 @@ function clean() {
 }
 
 function hbs() {
-    return src('src/**/*.hbs')
+    return src(['src/**/*.hbs', '!src/node_modules/**'])
         .pipe(dest('build/src/'));
 }
 
 function js() {
-    return src('src/**/*.js')
+    return src(['src/**/*.js', '!src/node_modules/**' ])
         .pipe(dest('build/src/'));
 }
 
@@ -40,7 +40,7 @@ function npmLibCopy() {
 }
 
 function pkg() {
-    return src(['package*.json', '*.md'])
+    return src(['src/package*.json', '*.md'])
         .pipe(dest('build/'));
 }
 
