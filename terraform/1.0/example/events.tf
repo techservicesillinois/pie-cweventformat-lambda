@@ -15,6 +15,16 @@ module "cweventFormat" {
 }
 PATTERN
 
+        guard_duty = <<PATTERN
+{
+    "source": [ "aws.guardduty" ],
+    "detail-type": [ "GuardDuty Finding" ]
+    "detail": {
+        "severity": [ { "numeric": [ ">=", 7 ] } ]
+    }
+}
+PATTERN
+
         ec2_state_change = <<PATTERN
 {
     "source": [ "aws.ec2" ],

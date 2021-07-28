@@ -1,0 +1,3 @@
+{{#or localIpDetails.ipAddressV4 localPortDetails.port}}
+Local:           {{#if localIpDetails.ipAddressV4}}{{localIpDetails.ipAddressV4}}{{/if}}{{#if localPortDetails.port}}:{{localPortDetails.port}}{{#unlessEq localPortDetails.portName "Unknown"}} ({{localPortDetails.portName}}){{/unlessEq}}{{/if}}
+{{/or}}

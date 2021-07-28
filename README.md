@@ -233,6 +233,21 @@ Resources:
             "source": [ "aws.health" ],
             "detail-type": [ "AWS Health Event" ]
           }
+  GuardDutyFindingEvents:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/uiuc-sbutler1-sandbox/cweventFormat/sam/template-event.yaml
+      Parameters:
+        LambdaStackName: !Select [ 1, !Split [ "/", !Ref CWEventFormat ] ]
+        EventPattern: |
+          {
+            "source": [ "aws.guardduty" ],
+            "detail-type": [ "GuardDuty Finding" ]
+            "detail": {
+              "severity": [ { "numeric": [ ">=", 7 ] } ]
+            }
+          }
+
   EC2StateChangeEvents:
     Type: AWS::CloudFormation::Stack
     Properties:

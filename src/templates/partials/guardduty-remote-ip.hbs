@@ -1,0 +1,26 @@
+{{#or remoteIpDetails.ipAddressV4 remotePortDetails.port}}
+Remote:          {{#if remoteIpDetails.ipAddressV4}}{{remoteIpDetails.ipAddressV4}}{{/if}}{{#if remotePortDetails.port}}:{{remotePortDetails.port}}{{#unlessEq remotePortDetails.portName "Unknown"}} ({{remotePortDetails.portName}}){{/unlessEq}}{{/if}}
+{{/or}}
+{{#with remoteIpDetails}}
+{{#or city.cityName country.countryName country.countryCode geoLocation.lon geoLocation.lat}}
+Location:
+  {{#if city.cityName}}
+  - City:        {{city.cityName}}
+  {{/if}}
+  {{#or country.countryName country.countryCode}}
+  - Country:     {{default country.countryName country.countryCode}}
+  {{/or}}
+  {{#and geoLocation.lon geoLocation.lat}}
+  - Coordinates: {{geoLocation.lon}},{{geoLocation.lat}}
+  {{/and}}
+{{/or}}
+{{#or organization.isp}}
+Organization:
+  {{#if organization.asnOrg}}
+  - ASN:         {{organization.asnOrg}}{{#if organization.asn}} ({{organization.asn}}){{/if}}
+  {{/if}}
+  {{#if organization.isp}}
+  - ISP:         {{organization.isp}}{{#if organization.org}} ({{organization.org}}){{/if}}
+  {{/if}}
+{{/or}}
+{{/with}}

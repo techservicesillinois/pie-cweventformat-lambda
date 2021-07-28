@@ -1,0 +1,149 @@
+{{detail.description}}
+
+EVENT: {{id}}
+==================================================
+Account:    {{account}}
+Source:     {{source}} ({{region}})
+Time:       {{moment time "LLLL Z"}}
+Created At: {{moment detail.createdAt "LLLL Z"}}
+Updated At: {{moment detail.updatedAt "LLLL Z"}}
+
+Resource IDs:
+{{#each detail.resource.s3BucketDetails}}
+- {{name}}
+{{/each}}
+{{#if detail.resource.instanceDetails.instanceId}}
+- {{detail.resource.instanceDetails.instanceId}}
+{{/if}}
+
+{{#with detail.resource}}
+RESOURCE{{#if resourceType}}: {{resourceType}}{{/if}}
+--------------------------------------------------
+{{#if accessKeyDetails}}{{#with accessKeyDetails ~}}
+{{#if userName}}
+User:          {{userName}} ({{userType}})
+{{/if}}
+{{#if accessKeyId}}
+Access Key ID: {{accessKeyId}}
+{{/if}}
+{{#if principalId}}
+Principal ID:  {{principalId}}
+{{/if}}
+{{/with}}{{/if}}{{! END accessKeyDetails ~}}
+{{#if instanceDetails}}{{#with instanceDetails ~}}
+{{#if instanceId}}
+Instance ID:   {{instanceId}} ({{default instanceState "unknown"}})
+{{/if}}
+{{#if instanceType}}
+Instance Type: {{instanceType}}
+{{/if}}
+{{#if imageId}}
+Image:         {{imageId}} ({{default imageDescription "unknown"}})
+{{/if}}
+{{#if launchTime}}
+Launch Time:   {{moment launchTime "LLLL Z"}}
+{{/if}}
+{{#each tags}}
+Tag/{{key}}: {{value}}
+{{/each}}
+{{#if networkInterfaces}}
+
+Network Interfaces:
+{{#each networkInterfaces}}
+- {{networkInterfaceId}} ({{vpcId}}/{{subnetId}})
+  + Private Address: {{privateIpAddress}} ({{default privateDnsName "unknown host"}})
+    {{#each privateIpAddresses}}
+    {{#unlessEq privateIpAddress ../privateIpAddress}}
+    * {{privateIpAddress}} ({{default privateDnsName "unknown host"}})
+    {{/unlessEq}}
+    {{/each}}
+  {{#if publicIp}}
+  + Public Address:  {{publicIp}} ({{default publicDnsName "unknown host"}})
+  {{/if}}
+  {{#if ipv6Addresses}}
+  + IPv6 Addresses:
+    {{#each ipv6Addresses}}
+    - {{this}}
+    {{/each}}
+  {{/if}}
+  + Security Groups:
+    {{#each securityGroups}}
+    * {{groupName}} ({{groupId}})
+    {{/each}}
+{{/each}}{{/if}}{{! END networkInterfaces ~}}
+{{/with}}{{/if}}{{! END instanceDetails ~}}
+{{#if s3BucketDetails}}
+
+S3 Buckets:
+{{#each s3BucketDetails}}
+- {{#if type}}{{type}}: {{/if}}{{name}}
+  {{#if publicAccess.effectivePermission}}
+  * Effective Permissions: {{publicAccess.effectivePermission}}
+  {{/if}}
+  {{#if createdAt}}
+  * Created At:            {{moment createdAt "LLLL Z"}}
+  {{/if}}
+  {{#each tags}}
+  * Tag/{{key}}: {{value}}
+  {{/each}}
+{{/each}}{{/if}}{{! END s3BucketDetails ~}}
+{{/with}}{{! END detail.resources}}
+
+{{#if detail.service.action}}{{#with detail.service.action ~}}
+ACTION{{#if actionType}}: {{actionType}}{{/if}}
+--------------------------------------------------
+{{#if awsApiCallAction}}{{#with awsApiCallAction ~}}
+{{#if serviceName}}
+Service:         {{serviceName}}
+{{/if}}
+{{#if api}}
+API:             {{api}}
+{{/if}}
+{{#if callerType}}
+Caller Type:     {{callerType}}
+{{/if}}
+{{#if domainDetails.domain}}
+Domain:          {{domainDetails.domain}}
+{{/if}}
+{{> guardduty-remote-ip}}
+{{/with}}{{/if}}{{! END awsApiCallAction ~}}
+{{#if portProbeAction}}{{#with networkConnectionAction ~}}
+Blocked:         {{blocked}}
+{{#if protocol}}
+Protocol:        {{protocol}}{{#if connectionDirection}} ({{connectionDirection}}){{/if}}
+{{/if}}
+{{> guardduty-local-ip}}
+{{> guardduty-remote-ip}}
+{{/with}}{{/if}}{{! END networkConnectionAction ~}}
+{{#if portProbeAction}}{{#with portProbeAction ~}}
+Blocked:         {{blocked}}
+{{#each portProbeDetails}}
+{{> guardduty-local-ip}}
+{{> guardduty-remote-ip}}
+{{/each}}
+{{/with}}{{/if}}{{! END portProbeAction}}
+
+{{/with}}{{/if}}{{! END detail.service.action ~}}
+{{#if detail.service}}{{#with detail.service ~}}
+INFORMATION
+--------------------------------------------------
+{{#if evidence.threatIntelligenceDetails}}{{#with evidence.threatIntelligenceDetails ~}}
+{{#if threatNames}}
+Threat Name: {{join threatNames ", "}}
+{{/if}}
+{{#if threatListName}}
+Threat List: {{threatListName}}
+{{/if}}
+{{/with}}{{/if}}{{! END evidence.threatIntelligenceDetails ~}}
+{{#if eventFirstSeen}}
+First Seen:  {{moment eventFirstSeen "LLLL Z"}}
+{{/if}}
+{{#if eventLastSeen}}
+Last Seen:   {{moment eventLastSeen "LLLL Z"}}
+{{/if}}
+
+
+{{/with}}{{/if}}{{! END detail.service ~}}
+DETAIL: {{detail-type}}
+--------------------------------------------------
+{{_inspect detail type="md"}}
