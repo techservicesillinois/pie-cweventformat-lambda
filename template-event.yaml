@@ -21,7 +21,9 @@ Resources:
               !Sub "${LambdaStackName}:LambdaFunctionName"
       EventPattern: !Ref EventPattern
       Targets:
-        - Id: !Sub "${AWS::StackName}-LambdaFunctionARN"
+        - Id:
+            Fn::ImportValue:
+              !Sub "${LambdaStackName}:LambdaFunctionName"
           Arn:
             Fn::ImportValue:
               !Sub "${LambdaStackName}:LambdaFunctionARN"
