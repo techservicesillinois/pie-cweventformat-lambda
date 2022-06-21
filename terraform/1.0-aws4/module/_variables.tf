@@ -55,7 +55,7 @@ variable "deploy_s3zip" {
                     bucket = string
                     prefix = string
                 })
-    description = "S3 bucket and prefix to the ipBlocklist/environment.zip file to deploy."
+    description = "S3 bucket and prefix to the cweventFormat/environment.zip file to deploy."
     default     = null
 }
 
