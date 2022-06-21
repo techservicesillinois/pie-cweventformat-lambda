@@ -2,7 +2,6 @@ const bunyan = require('bunyan');
 const fs = require('fs/promises');
 const path = require('path');
 const readdir = require('recursive-readdir');
-const util = require('util');
 
 const handlebars = require('handlebars');
 require('handlebars-helpers')({

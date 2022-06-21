@@ -1,11 +1,11 @@
 module "cweventFormat" {
     source = "../module"
 
-    name_prefix = "example-"
+    environment = "test"
+    name        = "example-cweventFormat"
 
     deploy_zip      = "../../../dist/cweventFormat.zip"
-    deploy_libzip   = "../../../dist/cweventFormat-lib.zip"
-    lambda_timezone = "America/Chicago"
+    timezone = "America/Chicago"
 
     event_rule_patterns = {
         aws_health = <<PATTERN

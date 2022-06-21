@@ -1,6 +1,4 @@
-const AWS = require('aws-sdk');
 const bunyan = require('bunyan');
-const cacheManager = require('cache-manager');
 
 /**
  * Formats for ARN.
@@ -55,7 +53,6 @@ const ARN_MAP_RE = {
         /^arn:(?<partition>[^:]*):(?<service>[^:]*):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^:/]*):(?<resource>[^:/]*)(?::(?<qualifier>.*))?$/,
     ]
 }
-const GETARNCONTACTS_CACHE = { store: 'memory', max: 10, ttl: 300 };
 const log = bunyan.createLogger({ name: 'cweventFormat.awsUtil' });
 
 
@@ -85,16 +82,6 @@ function parseARN(arn) {
     return {};
 }
 
-async function getARNContacts(arn) {
-    if (!arn) {
-        log.debug({ arn }, 'Empty ARN for getARNContacts.');
-        return [];
-    }
-}
-const _getARNContactsCache = cacheManager.caching(GETARNCONTACTS_CACHE);
-
-
 module.exports = {
-    getARNContacts,
     parseARN,
 };
