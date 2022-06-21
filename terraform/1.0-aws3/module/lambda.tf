@@ -10,23 +10,6 @@ data "aws_s3_bucket_object" "this" {
 }
 
 # =========================================================
-# Resources: Lambda
-# =========================================================
-
-
-resource "aws_lambda_function" "lambda" {
-
-    environment {
-        variables = {
-        }
-    }
-
-    dead_letter_config {
-        target_arn = local.notification_topic_arn
-    }
-}
-
-# =========================================================
 # Module
 # =========================================================
 
@@ -64,6 +47,8 @@ module "this" {
 
     attach_policy_json = true
     policy_json        = data.aws_iam_policy_document.this.json
+
+    dead_letter_target_arn = local.notifications_topic_arn
 
     allowed_triggers = {
         for k, v in var.event_rule_patterns : "Event-${k}" => {
