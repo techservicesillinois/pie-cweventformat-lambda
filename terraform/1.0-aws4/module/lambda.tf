@@ -32,12 +32,12 @@ resource "aws_lambda_function" "lambda" {
 
 module "this" {
     source  = "terraform-aws-modules/lambda/aws"
-    version = "3.3.1"
+    version = "4.0.0"
 
     function_name = var.name
     description   = var.description
     handler       = "src/index.handler"
-    runtime       = "nodejs14.x"
+    runtime       = "nodejs16.x"
     memory_size   = 128
     timeout       = 30
 

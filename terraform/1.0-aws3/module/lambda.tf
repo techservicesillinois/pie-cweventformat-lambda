@@ -37,7 +37,7 @@ module "this" {
     function_name = var.name
     description   = var.description
     handler       = "src/index.handler"
-    runtime       = "nodejs14.x"
+    runtime       = "nodejs16.x"
     memory_size   = 128
     timeout       = 30
 

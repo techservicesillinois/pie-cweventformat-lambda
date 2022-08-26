@@ -10,7 +10,7 @@ const SNS_TOPIC_ARN = process.env.SNS_TOPIC_ARN;
 /**
  * Entry point for the lambda function.
  */
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
     const hbs = await require('./handlebars')();
     const { message, subject } = await hbs.render(event, TEMPLATE_DIR);
 
