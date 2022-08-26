@@ -17,7 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "errors_high" {
     unit                = "Count"
     threshold           = 1
     period              = 300
-    evaluation_periods  = 3
+    evaluation_periods  = 1
 
     treat_missing_data = "notBreaching"
     actions_enabled    = true

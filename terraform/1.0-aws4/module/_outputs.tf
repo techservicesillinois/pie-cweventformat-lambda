@@ -7,5 +7,5 @@ output "lambda" {
 }
 
 output "notifications_topic_arn" {
-    value = local.notification_topic_arn
+    value = local.notifications_topic_arn
 }

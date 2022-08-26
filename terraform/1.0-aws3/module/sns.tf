@@ -11,7 +11,7 @@ locals {
 # =========================================================
 
 resource "aws_sns_topic" "notifications" {
-    count = var.notification_topic_arn == null ? 1 : 0
+    count = var.notifications_topic_arn == null ? 1 : 0
 
     name = var.name
 
