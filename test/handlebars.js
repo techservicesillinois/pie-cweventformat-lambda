@@ -32,7 +32,7 @@ describe('handlebars', function () {
             const files = await handlebars.getTemplateFiles('aws.ecs', 'ECS Task State Change');
 
             files.should.eql({
-                '_subject_': 'default._subject_.hbs',
+                '_subject_': 'aws.ecs/ECS Task State Change._subject_.hbs',
                 'email': 'aws.ecs/ECS Task State Change.email.hbs',
             });
         });

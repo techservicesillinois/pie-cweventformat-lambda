@@ -1,3 +1,4 @@
+const { parse: parseARN } = require('@aws-sdk/util-arn-parser');
 const bunyan = require('bunyan');
 const fs = require('fs/promises');
 const path = require('path');
@@ -112,6 +113,27 @@ async function getTemplateFiles(eventSource, eventDetailType, templateDir = TEMP
 }
 
 /**
+ * Helper to parse an ARN and return either a single property, or the entire
+ * parser ARN.
+ *
+ * @param {string} value The value to parse.
+ * @param {string} property The property to return.
+ * @return {string|object} The ARN property or the whole parsed ARN.
+ */
+function helperARN(value, property) {
+    try {
+        const arn = parseARN(value);
+
+        if (property)
+            return arn[property];
+        return arn;
+    } catch (err) {
+        log.error(err, 'Unable to parse value: %s', value);
+        return undefined;
+    }
+}
+
+/**
  * Initialize handlebars for use in our templates. Right now, this primarily
  * finds and registers the partials.
  *
@@ -134,6 +156,8 @@ async function initHandlebars({ templateDir = TEMPLATEDIR } = {}) {
         log.info({ partialName, partialFile }, 'Registering partial');
         handlebars.registerPartial(partialName, partial);
     }
+
+    handlebars.registerHelper('arn', helperARN);
 
     return {
         TEMPLATEDIR,
