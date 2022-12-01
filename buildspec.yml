@@ -1,0 +1,59 @@
+version: 0.2
+env:
+  shell: bash
+  variables:
+    APPNAME: cweventFormat
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+  build:
+    on-failure: ABORT
+    commands:
+      - 'cd "$CODEBUILD_SRC_DIR/$PROJECT_SUBDIR"'
+      - 'make lint-report || :'
+      - 'make test-report'
+      - 'make dist'
+  post_build:
+    on-failure: ABORT
+    commands:
+      - 'cd "$CODEBUILD_SRC_DIR/$PROJECT_SUBDIR"'
+      - |
+        if [[ $PACKAGE_COUNT -gt 0 && -n $ENVIRONMENT ]]; then
+          orig_region=$AWS_REGION
+          for idx in $(seq 0 $PACKAGE_COUNT); do
+            bucket=PACKAGE_${idx}_BUCKET
+            region=PACKAGE_${idx}_REGION
+            key_id=PACKAGE_${idx}_KMS_KEY_ID
+
+            [[ -n ${!bucket} ]] || continue
+            if [[ -n ${!region} ]]; then
+              export AWS_REGION=${!region}
+            else
+              export AWS_REGION=$orig_region
+            fi
+
+            make package PACKAGE_BUCKET=${!bucket} PACKAGE_KMS_KEY_ID=${!key_id}
+            make package-${ENVIRONMENT} PACKAGE_BUCKET=${!bucket} PACKAGE_KMS_KEY_ID=${!key_id}
+          done
+          export AWS_REGION=$orig_region
+        fi
+artifacts:
+  files:
+    - $APPNAME.zip
+  discard-paths: yes
+  base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/dist/
+reports:
+  pylint:
+    files:
+      - pylint.xml
+    base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/reports/
+    file-format: JUNITXML
+  pytest:
+    files:
+      - pytest.xml
+    base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/reports/
+    file-format: JUNITXML
+cache:
+  paths:
+    - $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/node_modules
