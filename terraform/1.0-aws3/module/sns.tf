@@ -3,7 +3,7 @@
 # =========================================================
 
 locals {
-    notifications_topic_arn = var.notifications_topic_arn == null ? aws_sns_topic.notifications[0].arn : var.notifications_topic_arn
+    notifications_topic_arn = var.notifications_topic_enabled ? var.notifications_topic_arn : aws_sns_topic.notifications[0].arn
 }
 
 # =========================================================
@@ -11,7 +11,7 @@ locals {
 # =========================================================
 
 resource "aws_sns_topic" "notifications" {
-    count = var.notifications_topic_arn == null ? 1 : 0
+    count = var.notifications_topic_enabled ? 0 : 1
 
     name = var.name
 

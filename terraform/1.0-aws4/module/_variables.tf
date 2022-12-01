@@ -22,6 +22,12 @@ variable "event_rule_patterns" {
     default     = {}
 }
 
+variable "notifications_topic_enabled" {
+    type        = bool
+    description = "Use the SNS Topic ARN parameter (true) or create one in the module (false)."
+    default     = false
+}
+
 variable "notifications_topic_arn" {
     type        = string
     description = "SNS Topic to send formatted notifications to."
