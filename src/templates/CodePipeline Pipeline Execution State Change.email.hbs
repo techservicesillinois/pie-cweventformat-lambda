@@ -1,0 +1,20 @@
+EXECUTION: {{detail.execution-id}}
+==================================================
+Account: {{account}}
+Source:  {{source}} ({{region}})
+Time:    {{moment time "LLLL Z"}}
+State:   {{detail.state}}
+Version: {{detail.version}}
+{{#if resources}}
+
+Resources:
+{{#each resources}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+
+
+DETAIL: {{detail-type}}
+--------------------------------------------------
+{{_inspect detail type="md"}}

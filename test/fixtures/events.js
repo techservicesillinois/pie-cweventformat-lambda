@@ -437,4 +437,117 @@ module.exports = [
             subject: "[aws.health] AWS_EC2_INSTANCE_STORE_DRIVE_PERFORMANCE_DEGRADED",
         }
     },
+    {
+        data: {
+            "version": "0",
+            "id": "01234567-EXAMPLE",
+            "detail-type": "CodePipeline Pipeline Execution State Change",
+            "source": "aws.codepipeline",
+            "account": "123456789012",
+            "time": "2020-01-24T22:03:07Z",
+            "region": "us-east-1",
+            "resources": [
+                "arn:aws:codepipeline:us-east-1:123456789012:myPipeline"
+            ],
+            "detail": {
+                "pipeline": "myPipeline",
+                "execution-id": "12345678-1234-5678-abcd-12345678abcd",
+                "execution-trigger": {
+                    "trigger-type": "StartPipelineExecution",
+                    "trigger-detail": "arn:aws:sts::123456789012:assumed-role/Admin/my-user"
+                },
+                "state": "STARTED",
+                "version": 1
+            }
+        },
+        expected: {
+            message: {
+                default: '{"version":"0","id":"01234567-EXAMPLE","detail-type":"CodePipeline Pipeline Execution State Change","source":"aws.codepipeline","account":"123456789012","time":"2020-01-24T22:03:07Z","region":"us-east-1","resources":["arn:aws:codepipeline:us-east-1:123456789012:myPipeline"],"detail":{"pipeline":"myPipeline","execution-id":"12345678-1234-5678-abcd-12345678abcd","execution-trigger":{"trigger-type":"StartPipelineExecution","trigger-detail":"arn:aws:sts::123456789012:assumed-role/Admin/my-user"},"state":"STARTED","version":1}}',
+                email: 'EXECUTION: 12345678-1234-5678-abcd-12345678abcd\n==================================================\nAccount: 123456789012\nSource:  aws.codepipeline (us-east-1)\nTime:    Friday, January 24, 2020 4:03 PM -06:00\nState:   STARTED\nVersion: 1\n\nResources:\n- arn:aws:codepipeline:us-east-1:123456789012:myPipeline\n\n\n\nDETAIL: CodePipeline Pipeline Execution State Change\n--------------------------------------------------\n\n```json\n{\n  "pipeline": "myPipeline",\n  "execution-id": "12345678-1234-5678-abcd-12345678abcd",\n  "execution-trigger": {\n    "trigger-type": "StartPipelineExecution",\n    "trigger-detail": "arn:aws:sts::123456789012:assumed-role/Admin/my-user"\n  },\n  "state": "STARTED",\n  "version": 1\n}\n```\n\n'
+            },
+            subject: "[aws.codepipeline] myPipeline execution: STARTED",
+        }
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "01234567-EXAMPLE",
+            "detail-type": "CodePipeline Pipeline Execution State Change",
+            "source": "aws.codepipeline",
+            "account": "123456789012",
+            "time": "2020-01-24T22:02:20Z",
+            "region": "us-west-2",
+            "resources": [
+                "arn:aws:codepipeline:us-west-2:123456789012:myPipeline"
+            ],
+            "detail": {
+                "pipeline": "myPipeline",
+                "execution-id": "12345678-1234-5678-abcd-12345678abcd",
+                "state": "STOPPING",
+                "version": 3,
+                "stop-execution-comments": "Stopping the pipeline for an update"
+            }
+        },
+        expected: {
+            message: {
+                default: '{"version":"0","id":"01234567-EXAMPLE","detail-type":"CodePipeline Pipeline Execution State Change","source":"aws.codepipeline","account":"123456789012","time":"2020-01-24T22:02:20Z","region":"us-west-2","resources":["arn:aws:codepipeline:us-west-2:123456789012:myPipeline"],"detail":{"pipeline":"myPipeline","execution-id":"12345678-1234-5678-abcd-12345678abcd","state":"STOPPING","version":3,"stop-execution-comments":"Stopping the pipeline for an update"}}',
+                email: 'EXECUTION: 12345678-1234-5678-abcd-12345678abcd\n==================================================\nAccount: 123456789012\nSource:  aws.codepipeline (us-west-2)\nTime:    Friday, January 24, 2020 4:02 PM -06:00\nState:   STOPPING\nVersion: 3\n\nResources:\n- arn:aws:codepipeline:us-west-2:123456789012:myPipeline\n\n\n\nDETAIL: CodePipeline Pipeline Execution State Change\n--------------------------------------------------\n\n```json\n{\n  "pipeline": "myPipeline",\n  "execution-id": "12345678-1234-5678-abcd-12345678abcd",\n  "state": "STOPPING",\n  "version": 3,\n  "stop-execution-comments": "Stopping the pipeline for an update"\n}\n```\n\n',
+            },
+            subject: "[aws.codepipeline] myPipeline execution: STOPPING",
+        }
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "01234567-EXAMPLE",
+            "detail-type": "CodePipeline Pipeline Execution State Change",
+            "source": "aws.codepipeline",
+            "account": "123456789012",
+            "time": "2020-01-24T22:03:44Z",
+            "region": "us-east-1",
+            "resources": [
+                "arn:aws:codepipeline:us-east-1:123456789012:myPipeline"
+            ],
+            "detail": {
+                "pipeline": "myPipeline",
+                "execution-id": "12345678-1234-5678-abcd-12345678abcd",
+                "state": "SUCCEEDED",
+                "version": 3
+            }
+        },
+        expected: {
+            message: {
+                default: '{"version":"0","id":"01234567-EXAMPLE","detail-type":"CodePipeline Pipeline Execution State Change","source":"aws.codepipeline","account":"123456789012","time":"2020-01-24T22:03:44Z","region":"us-east-1","resources":["arn:aws:codepipeline:us-east-1:123456789012:myPipeline"],"detail":{"pipeline":"myPipeline","execution-id":"12345678-1234-5678-abcd-12345678abcd","state":"SUCCEEDED","version":3}}',
+                email: 'EXECUTION: 12345678-1234-5678-abcd-12345678abcd\n==================================================\nAccount: 123456789012\nSource:  aws.codepipeline (us-east-1)\nTime:    Friday, January 24, 2020 4:03 PM -06:00\nState:   SUCCEEDED\nVersion: 3\n\nResources:\n- arn:aws:codepipeline:us-east-1:123456789012:myPipeline\n\n\n\nDETAIL: CodePipeline Pipeline Execution State Change\n--------------------------------------------------\n\n```json\n{\n  "pipeline": "myPipeline",\n  "execution-id": "12345678-1234-5678-abcd-12345678abcd",\n  "state": "SUCCEEDED",\n  "version": 3\n}\n```\n\n',
+            },
+            subject: "[aws.codepipeline] myPipeline execution: SUCCEEDED",
+        }
+    },
+    {
+        data: {
+            "version": "0",
+            "id": "01234567-EXAMPLE",
+            "detail-type": "CodePipeline Pipeline Execution State Change",
+            "source": "aws.codepipeline",
+            "account": "123456789012",
+            "time": "2020-01-31T18:55:43Z",
+            "region": "us-west-2",
+            "resources": [
+                "arn:aws:codepipeline:us-west-2:123456789012:myPipeline"
+            ],
+            "detail": {
+                "pipeline": "myPipeline",
+                "execution-id": "12345678-1234-5678-abcd-12345678abcd",
+                "state": "FAILED",
+                "version": 4
+            }
+        },
+        expected: {
+            message: {
+                default: '{"version":"0","id":"01234567-EXAMPLE","detail-type":"CodePipeline Pipeline Execution State Change","source":"aws.codepipeline","account":"123456789012","time":"2020-01-31T18:55:43Z","region":"us-west-2","resources":["arn:aws:codepipeline:us-west-2:123456789012:myPipeline"],"detail":{"pipeline":"myPipeline","execution-id":"12345678-1234-5678-abcd-12345678abcd","state":"FAILED","version":4}}',
+                email: 'EXECUTION: 12345678-1234-5678-abcd-12345678abcd\n==================================================\nAccount: 123456789012\nSource:  aws.codepipeline (us-west-2)\nTime:    Saturday, February 1, 2020 12:55 PM -06:00\nState:   FAILED\nVersion: 4\n\nResources:\n- arn:aws:codepipeline:us-west-2:123456789012:myPipeline\n\n\n\nDETAIL: CodePipeline Pipeline Execution State Change\n--------------------------------------------------\n\n```json\n{\n  "pipeline": "myPipeline",\n  "execution-id": "12345678-1234-5678-abcd-12345678abcd",\n  "state": "FAILED",\n  "version": 4\n}\n```\n\n',
+            },
+            subject: "[aws.codepipeline] myPipeline execution: FAILED",
+        }
+    },
 ];
