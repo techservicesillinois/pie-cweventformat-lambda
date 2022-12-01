@@ -11,7 +11,7 @@
         "bunyan": "^1.8.15",
         "cache-manager": "^5.1.3",
         "handlebars": "^4.7.7",
-        "handlebars-helpers": "^0.10.0",
+        "handlebars-helpers": "^0.9.8",
         "recursive-readdir": "^2.2.3"
     },
     "engines": {
