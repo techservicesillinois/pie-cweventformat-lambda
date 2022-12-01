@@ -44,14 +44,14 @@ artifacts:
   discard-paths: yes
   base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/dist/
 reports:
-  pylint:
+  eslint:
     files:
-      - pylint.xml
+      - eslint.xml
     base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/reports/
     file-format: JUNITXML
-  pytest:
+  mocha:
     files:
-      - pytest.xml
+      - mocha.xml
     base-directory: $CODEBUILD_SRC_DIR/$PROJECT_SUBDIR/reports/
     file-format: JUNITXML
 cache:
