@@ -15,7 +15,7 @@ You can choose to build and deploy this app with terraform.
 
 ### Building
 
-This is a NodeJS 14.x project that builds using Gulp. Building should be as
+This is a NodeJS 16.x project that builds using a Makefile. Building should be as
 simple as running these commands from the project directory:
 
 ```bash
@@ -91,7 +91,8 @@ These outputs are useful for other parts of your terraform.
 
 ### Example
 
-Take a look at the `terraform/1.0/example` directory for how to use this module.
+Take a look at the `terraform/1.0-aws4/example` directory for how to use this
+module.
 
 ## CloudFormation Deployment
 
@@ -101,7 +102,7 @@ After building you will deploy the `packaged-template.yaml` and one or more
 
 ### Building
 
-This is a NodeJS 14.x project that builds with AW SAM. Building should be as
+This is a NodeJS 16.x project that builds with AW SAM. Building should be as
 simple as running these commands from the project directory:
 
 ```bash

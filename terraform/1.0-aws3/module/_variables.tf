@@ -24,7 +24,7 @@ variable "event_rule_patterns" {
 
 variable "notifications_topic_arn" {
     type        = string
-    description = "SNS Topic ARN to publish blocklist changes to, for notifications."
+    description = "SNS Topic to send formatted notifications to."
     default     = null
 }
 
