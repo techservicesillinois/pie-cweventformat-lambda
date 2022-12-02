@@ -550,4 +550,34 @@ module.exports = [
             subject: "[aws.codepipeline] myPipeline execution: FAILED",
         }
     },
+    {
+        data: {
+            "version": "0",
+            "id": "42h6hb90-hg0w-11op-b01v-0xhnh0934z09",
+            "detail-type": "CloudFormation StackSet StackInstance Status Change",
+            "source": "aws.cloudformation",
+            "account": "111122223333",
+            "time": "2021-09-22T19:19:23Z",
+            "region": "us-east-1",
+            "resources": [
+              "arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59"
+            ],
+            "detail": {
+               "stack-set-arn": "arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59",
+              "stack-id": "arn:aws:cloudformation:us-west-1:111122223333:stack/teststack",
+              "status-details": {
+                  "status": "OUTDATED",
+                  "status-reason": "User Initiated",
+                  "detailed-status": "PENDING"
+              }
+            }
+        },
+        expected: {
+            message: {
+                default: "{\"version\":\"0\",\"id\":\"42h6hb90-hg0w-11op-b01v-0xhnh0934z09\",\"detail-type\":\"CloudFormation StackSet StackInstance Status Change\",\"source\":\"aws.cloudformation\",\"account\":\"111122223333\",\"time\":\"2021-09-22T19:19:23Z\",\"region\":\"us-east-1\",\"resources\":[\"arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59\"],\"detail\":{\"stack-set-arn\":\"arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59\",\"stack-id\":\"arn:aws:cloudformation:us-west-1:111122223333:stack/teststack\",\"status-details\":{\"status\":\"OUTDATED\",\"status-reason\":\"User Initiated\",\"detailed-status\":\"PENDING\"}}}",
+                email: "STACKSET: test1234\n==================================================\nAccount: 111122223333\nStack:   teststack (us-west-1)\nStatus:  OUTDATED\nReason:  User Initiated\nDetails: PENDING\n\n\nEVENT: 42h6hb90-hg0w-11op-b01v-0xhnh0934z09\n==================================================\nAccount: 111122223333\nSource:  aws.cloudformation (us-east-1)\nTime:    Wednesday, September 22, 2021 2:19 PM -05:00\n\nResources:\n- arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59\n\n\nDETAIL: CloudFormation StackSet StackInstance Status Change\n--------------------------------------------------\n\n```json\n{\n  \"stack-set-arn\": \"arn:aws:cloudformation:us-east-1:111122223333:stackset/test1234:e5f54eea-d041-44ad-94f8-b8268aca1e59\",\n  \"stack-id\": \"arn:aws:cloudformation:us-west-1:111122223333:stack/teststack\",\n  \"status-details\": {\n    \"status\": \"OUTDATED\",\n    \"status-reason\": \"User Initiated\",\n    \"detailed-status\": \"PENDING\"\n  }\n}\n```\n\n",
+            },
+            subject: "[aws.cloudformation] StackSet test1234 111122223333 (us-west-1): OUTDATED",
+        }
+    },
 ];

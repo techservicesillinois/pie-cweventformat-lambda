@@ -30,6 +30,8 @@ const TEMPLATEFORMATS = [
     '_subject_',
 ];
 
+const STACKSET_NAME_RE = /^stackset\/(?<name>.+):(?<id>.+)$/
+
 const log = bunyan.createLogger({ name: 'cweventFormat.handlebars' });
 
 
@@ -128,7 +130,27 @@ function helperARN(value, property) {
             return arn[property];
         return arn;
     } catch (err) {
-        log.error(err, 'Unable to parse value: %s', value);
+        log.error(err, 'Unable to parse arn value: %s', value);
+        return undefined;
+    }
+}
+
+/**
+ * Helper to parse a StackSet ARN and get the name from it.
+ *
+ * @param {string} value The value to parse.
+ * @return {string} The name of the StackSet.
+ */
+function helperStackSetName(value) {
+    try {
+        const arn = parseARN(value);
+
+        const match = STACKSET_NAME_RE.exec(arn.resource);
+        if (match)
+            return match.groups.name;
+        return arn.resource;
+    } catch (err) {
+        log.error(err, 'Unable to parse stacksetname value: %s', value);
         return undefined;
     }
 }
@@ -158,6 +180,7 @@ async function initHandlebars({ templateDir = TEMPLATEDIR } = {}) {
     }
 
     handlebars.registerHelper('arn', helperARN);
+    handlebars.registerHelper('stackSetName', helperStackSetName);
 
     return {
         TEMPLATEDIR,

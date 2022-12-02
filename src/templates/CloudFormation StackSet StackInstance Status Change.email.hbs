@@ -1,0 +1,15 @@
+STACKSET: {{stackSetName detail.stack-set-arn}}
+==================================================
+Account: {{arn detail.stack-id "accountId"}}
+Stack:   {{removeFirst (arn detail.stack-id "resource") "stack/"}} ({{arn detail.stack-id "region"}})
+Status:  {{detail.status-details.status}}
+Reason:  {{detail.status-details.status-reason}}
+Details: {{detail.status-details.detailed-status}}
+
+
+{{> eventInfo}}
+
+
+DETAIL: {{detail-type}}
+--------------------------------------------------
+{{_inspect detail type="md"}}
