@@ -19,6 +19,11 @@ phases:
     commands:
       - 'cd "$CODEBUILD_SRC_DIR/$PROJECT_SUBDIR"'
       - |
+        if [[ $PACKAGE_BUCKET && -n $ENVIRONMENT ]]; then
+          make package
+          make package-${ENVIRONMENT}
+        fi
+      - |
         if [[ $PACKAGE_COUNT -gt 0 && -n $ENVIRONMENT ]]; then
           orig_region=$AWS_REGION
           for idx in $(seq 0 $PACKAGE_COUNT); do
