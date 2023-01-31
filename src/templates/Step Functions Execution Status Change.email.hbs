@@ -1,0 +1,36 @@
+EXECUTION: {{detail.name}}
+==================================================
+Account: {{account}}
+Source:  {{source}} ({{region}})
+Time:    {{moment time "LLLL Z"}}
+Status:  {{detail.status}}
+Start:   {{moment detail.startDate "LLLL Z"}}
+{{#if detail.stopDate}}
+Stop:    {{moment detail.stopDate "LLLL Z"}}
+{{/if}}
+{{#if resources}}
+
+Resources:
+{{#each resources}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+
+{{#and detail.inputDetails detail.inputDetails.included}}
+INPUT:
+--------------------------------------------------
+{{_inspect detail.input type="md"}}
+
+
+{{/if}}
+{{#and detail.outputDetails detail.outputDetails.included}}
+INPUT:
+--------------------------------------------------
+{{_inspect detail.output type="md"}}
+
+
+{{/if}}
+DETAIL: {{detail-type}}
+--------------------------------------------------
+{{_inspect detail type="md"}}

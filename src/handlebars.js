@@ -30,7 +30,8 @@ const TEMPLATEFORMATS = [
     '_subject_',
 ];
 
-const STACKSET_NAME_RE = /^stackset\/(?<name>.+):(?<id>.+)$/
+const STACKSET_NAME_RE     = /^stackset\/(?<name>.+):(?<id>.+)$/;
+const STATEMACHINE_NAME_RE = /^stateMachine:(?<name>.+)$/;
 
 const log = bunyan.createLogger({ name: 'cweventFormat.handlebars' });
 
@@ -156,6 +157,26 @@ function helperStackSetName(value) {
 }
 
 /**
+ * Helper to parse a State Machine ARN and get the name from it.
+ *
+ * @param {string} value The value to parse.
+ * @return {string} The name of the State Machine.
+ */
+function helperStateMachineName(value) {
+    try {
+        const arn = parseARN(value);
+
+        const match = STATEMACHINE_NAME_RE.exec(arn.resource);
+        if (match)
+            return match.groups.name;
+        return arn.resource;
+    } catch (err) {
+        log.error(err, 'Unable to parse stepfunctionname value: %s', value);
+        return undefined;
+    }
+}
+
+/**
  * Initialize handlebars for use in our templates. Right now, this primarily
  * finds and registers the partials.
  *
@@ -181,6 +202,7 @@ async function initHandlebars({ templateDir = TEMPLATEDIR } = {}) {
 
     handlebars.registerHelper('arn', helperARN);
     handlebars.registerHelper('stackSetName', helperStackSetName);
+    handlebars.registerHelper('stateMachineName', helperStateMachineName);
 
     return {
         TEMPLATEDIR,
