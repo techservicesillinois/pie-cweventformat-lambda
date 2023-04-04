@@ -1,5 +1,6 @@
-APPNAME    := cweventFormat
+APP_NAME   := cweventFormat
 NPMBIN     := npm
+PYTHONBIN  := python3.9
 BUILDDIR   := $(PWD)/build/
 DISTDIR    := $(PWD)/dist/
 REPORTSDIR := $(PWD)/reports/
@@ -8,7 +9,7 @@ PACKAGE_PREFIX     ?= lambda/
 PACKAGE_KMS_KEY_ID ?= alias/aws/s3
 COMMIT_ID          :=$(shell git rev-parse --short HEAD)
 
-.PHONY: clean build lint lint-report test test-report dist package package-dev package-test package-prod .npm-install
+.PHONY: clean build lint lint-report test test-report dist package package-dev package-test package-prod .npm-install .venv-install
 
 check_defined = \
 	$(strip $(foreach 1,$1, \
@@ -32,6 +33,10 @@ build:
 .npm-install:
 	$(NPMBIN) install
 
+.venv-install:
+	[ -e .venv ] || $(PYTHONBIN) -mvenv .venv
+	.venv/bin/pip install -qq -r scripts/requirements.txt
+
 lint: .npm-install
 	$(NPMBIN) run-script lint
 lint-report: .npm-install
@@ -46,25 +51,20 @@ test-report: .npm-install
 
 dist: build
 	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
-	cd "$(BUILDDIR)" && zip -yr "$(DISTDIR)/$(APPNAME).zip" *
+	cd "$(BUILDDIR)" && zip -yr "$(DISTDIR)/$(APP_NAME).zip" *
 
-package:
-	@:$(call check_defined, PACKAGE_BUCKET, S3 package bucket)
-	$(eval _key  := $(PACKAGE_PREFIX)$(APPNAME)/commit-$(COMMIT_ID).zip)
-	_kms_key='$(PACKAGE_KMS_KEY_ID)'; aws s3 cp dist/$(APPNAME).zip s3://$(PACKAGE_BUCKET)/$(_key) --sse aws:kms --sse-kms-key-id $${_kms_key:-alias/aws/s3}
-	_kms_key='$(PACKAGE_KMS_KEY_ID)'; aws s3 cp dist/$(APPNAME).zip s3://$(PACKAGE_BUCKET)/$(PACKAGE_PREFIX)$(APPNAME)/latest.zip --sse aws:kms --sse-kms-key-id $${_kms_key:-alias/aws/s3}
+package: .venv-install
+	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
+	.venv/bin/python scripts/lambda-package-zip.py -a "$(APP_NAME)" -e latest --names commit -o "$(DISTDIR)/$(APP_NAME).zip" build/
 
-package-dev:
-	@:$(call check_defined, PACKAGE_BUCKET, S3 package bucket)
-	$(eval _key := $(PACKAGE_PREFIX)$(APPNAME)/dev.zip)
-	_kms_key='$(PACKAGE_KMS_KEY_ID)'; aws s3 cp dist/$(APPNAME).zip s3://$(PACKAGE_BUCKET)/$(_key) --sse aws:kms --sse-kms-key-id $${_kms_key:-alias/aws/s3}
+package-dev: .venv-install
+	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
+	.venv/bin/python scripts/lambda-package-zip.py -a "$(APP_NAME)" -e dev --names commit -o "$(DISTDIR)/$(APP_NAME).zip" build/
 
-package-test:
-	@:$(call check_defined, PACKAGE_BUCKET, S3 package bucket)
-	$(eval _key := $(PACKAGE_PREFIX)$(APPNAME)/test.zip)
-	_kms_key='$(PACKAGE_KMS_KEY_ID)'; aws s3 cp dist/$(APPNAME).zip s3://$(PACKAGE_BUCKET)/$(_key) --sse aws:kms --sse-kms-key-id $${_kms_key:-alias/aws/s3}
+package-test: .venv-install
+	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
+	.venv/bin/python scripts/lambda-package-zip.py -a "$(APP_NAME)" -e test --names commit -o "$(DISTDIR)/$(APP_NAME).zip" build/
 
-package-prod:
-	@:$(call check_defined, PACKAGE_BUCKET, S3 package bucket)
-	$(eval _key := $(PACKAGE_PREFIX)$(APPNAME)/prod.zip)
-	_kms_key='$(PACKAGE_KMS_KEY_ID)'; aws s3 cp dist/$(APPNAME).zip s3://$(PACKAGE_BUCKET)/$(_key) --sse aws:kms --sse-kms-key-id $${_kms_key:-alias/aws/s3}
+package-prod: .venv-install
+	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
+	.venv/bin/python scripts/lambda-package-zip.py -a "$(APP_NAME)" -e prod --names commit -o "$(DISTDIR)/$(APP_NAME).zip" build/
