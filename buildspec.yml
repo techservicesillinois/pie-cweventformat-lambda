@@ -20,7 +20,7 @@ phases:
     commands:
       - 'cd "$CODEBUILD_SRC_DIR/$PROJECT_SUBDIR"'
       - |
-        if [[ $PACKAGE_BUCKET || $PACKAGE_COUNT -gt 0 ]]; then
+        if [[ -n $PACKAGE_BUCKET || $PACKAGE_COUNT -gt 0 ]]; then
           make package
           [[ -z $ENVIRONMENT ]] || make package-${ENVIRONMENT}
         fi
