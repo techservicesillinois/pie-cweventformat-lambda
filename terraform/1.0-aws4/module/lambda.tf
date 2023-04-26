@@ -15,7 +15,7 @@ data "aws_s3_object" "this" {
 
 module "this" {
     source  = "terraform-aws-modules/lambda/aws"
-    version = "4.7.1"
+    version = "4.16.0"
 
     function_name = var.name
     description   = var.description
