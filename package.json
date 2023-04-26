@@ -26,11 +26,11 @@
     "author": "Stephen J. Butler <stephen.butler@gmail.com>",
     "license": "NCSA",
     "devDependencies": {
-        "aws-sdk": "^2.1203.0",
-        "eslint": "^8.22.0",
+        "aws-sdk": "^2.1365.0",
+        "eslint": "^8.39.0",
         "eslint-junit": "^1.0.1",
-        "mocha": "^10.0.0",
-        "mocha-junit-reporter": "^2.0.2",
+        "mocha": "^10.2.0",
+        "mocha-junit-reporter": "^2.2.0",
         "should": "^13.2.3"
     }
 }
