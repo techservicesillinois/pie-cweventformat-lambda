@@ -15,7 +15,7 @@ data "aws_s3_object" "this" {
 
 module "this" {
     source  = "terraform-aws-modules/lambda/aws"
-    version = "6.0.1"
+    version = "6.4.0"
 
     function_name = var.name
     description   = var.description
@@ -23,6 +23,7 @@ module "this" {
     runtime       = "nodejs16.x"
     memory_size   = 128
     timeout       = 30
+    function_tags = var.function_tags
 
     environment_variables = {
         SNS_TOPIC_ARN = local.notifications_topic_arn

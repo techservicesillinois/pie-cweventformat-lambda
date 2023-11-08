@@ -65,6 +65,12 @@ variable "deploy_s3zip" {
     default     = null
 }
 
+variable "function_tags" {
+    type        = map(string)
+    description = "Extra tags to add to the Lambda function only."
+    default     = {}
+}
+
 variable "timezone" {
     type        = string
     description = "Timezone name to set when running the lambda function (America/Chicago, UTC, etc)."
