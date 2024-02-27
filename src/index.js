@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
-const bunyan = require('bunyan');
 
-const log = bunyan.createLogger({ name: 'cweventFormat' });
+const log = require('./bunyan')();
 const awsSNS = new AWS.SNS({ apiVersion: '2010-03-31' });
 
 const TEMPLATE_DIR = process.env.TEMPLATE_DIR;

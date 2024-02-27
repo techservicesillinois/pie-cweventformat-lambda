@@ -1,5 +1,3 @@
-const bunyan = require('bunyan');
-
 /**
  * Formats for ARN.
  * https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
@@ -52,8 +50,8 @@ const ARN_MAP_RE = {
         /^arn:(?<partition>[^:]*):(?<service>[^:]*):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^:/]*)\/(?<resource>[^:/]*)(?:[:/](?<qualifier>.*))?$/,
         /^arn:(?<partition>[^:]*):(?<service>[^:]*):(?<region>[^:]*):(?<accountID>[^:]*):(?<resourceType>[^:/]*):(?<resource>[^:/]*)(?::(?<qualifier>.*))?$/,
     ]
-}
-const log = bunyan.createLogger({ name: 'cweventFormat.awsUtil' });
+};
+const log = require('./bunyan')({ name: 'awsUtils' });
 
 
 function parseARN(arn) {

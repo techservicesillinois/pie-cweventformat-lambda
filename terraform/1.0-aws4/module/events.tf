@@ -16,12 +16,12 @@ resource "aws_cloudwatch_event_rule" "lambda_event" {
 
     name        = "${var.name}-${each.key}"
     description = "Managed event rule for ${var.name} lambda."
-    is_enabled  = true
+    state       = "ENABLED"
 
     event_pattern = each.value
 
     lifecycle {
-        ignore_changes = [ is_enabled ]
+        ignore_changes = [ state ]
     }
 }
 

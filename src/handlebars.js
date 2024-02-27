@@ -1,5 +1,4 @@
 const { parse: parseARN } = require('@aws-sdk/util-arn-parser');
-const bunyan = require('bunyan');
 const fs = require('fs/promises');
 const path = require('path');
 const readdir = require('recursive-readdir');
@@ -33,7 +32,7 @@ const TEMPLATEFORMATS = [
 const STACKSET_NAME_RE     = /^stackset\/(?<name>.+):(?<id>.+)$/;
 const STATEMACHINE_NAME_RE = /^stateMachine:(?<name>.+)$/;
 
-const log = bunyan.createLogger({ name: 'cweventFormat.handlebars' });
+const log = require('./bunyan')({ name: 'handlebars' });
 
 
 /**

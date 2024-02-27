@@ -15,7 +15,7 @@ data "aws_s3_object" "this" {
 
 module "this" {
     source  = "terraform-aws-modules/lambda/aws"
-    version = "6.4.0"
+    version = "7.2.1"
 
     function_name = var.name
     description   = var.description
@@ -26,6 +26,8 @@ module "this" {
     function_tags = var.function_tags
 
     environment_variables = {
+        LOGGING_LEVEL = local.partition == "aws" ? "trace" : local.is_debug ? "debug" : "info"
+        NODE_ENV      = local.is_debug ? "development" : "production"
         SNS_TOPIC_ARN = local.notifications_topic_arn
         TZ            = var.timezone
     }
@@ -40,6 +42,8 @@ module "this" {
 
     cloudwatch_logs_retention_in_days = local.is_debug ? 7 : 30
     cloudwatch_logs_kms_key_id        = var.log_encryption_arn
+    logging_log_format                = "JSON"
+    logging_application_log_level     = local.is_debug ? "DEBUG" : "INFO"
 
     create_current_version_async_event_config   = false
     create_current_version_allowed_triggers     = false

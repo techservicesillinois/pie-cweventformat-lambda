@@ -25,6 +25,8 @@ module "this" {
     timeout       = 30
 
     environment_variables = {
+        LOGGING_LEVEL = local.is_debug ? "debug" : "info"
+        NODE_ENV      = local.is_debug ? "development" : "production"
         SNS_TOPIC_ARN = local.notifications_topic_arn
         TZ            = var.timezone
     }
