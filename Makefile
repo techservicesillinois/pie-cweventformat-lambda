@@ -1,6 +1,6 @@
 APP_NAME   := cweventFormat
 NPMBIN     := npm
-PYTHONBIN  := python3.9
+PYTHONBIN  := python3.12
 BUILDDIR   := $(PWD)/build/
 DISTDIR    := $(PWD)/dist/
 REPORTSDIR := $(PWD)/reports/

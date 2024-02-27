@@ -99,7 +99,7 @@ resource "aws_lambda_function" "lambda" {
     description = "Format CloudWatch Events for email delivery."
     handler     = "src/index.handler"
     role        = aws_iam_role.lambda.arn
-    runtime     = "nodejs16.x"
+    runtime     = "nodejs20.x"
     timeout     = 30
 
     environment {

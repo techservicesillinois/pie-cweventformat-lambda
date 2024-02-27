@@ -1,6 +1,6 @@
 {
     "name": "pie-cwevent-format",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Lambda function that will format CloudWatch Events for email and send to an SNS topic.",
     "main": "src/index.js",
     "scripts": {
@@ -8,16 +8,16 @@
         "test": "TZ='America/Chicago' mocha --exit"
     },
     "dependencies": {
+        "aws-sdk": "^2.1567.0",
         "bunyan": "^1.8.15",
-        "cache-manager": "^5.1.3",
-        "handlebars": "^4.7.7",
+        "handlebars": "^4.7.8",
         "handlebars-helpers": "^0.9.8",
         "recursive-readdir": "^2.2.3",
 
-        "@aws-sdk/util-arn-parser": "^3.208.0"
+        "@aws-sdk/util-arn-parser": "^3.495.0"
     },
     "engines": {
-        "node": ">=16.0.0 <17.0.0"
+        "node": ">=20.0.0 <21.0.0"
     },
     "repository": {
         "type": "git",
@@ -26,11 +26,10 @@
     "author": "Stephen J. Butler <stephen.butler@gmail.com>",
     "license": "NCSA",
     "devDependencies": {
-        "aws-sdk": "^2.1365.0",
-        "eslint": "^8.39.0",
+        "eslint": "^8.57.0",
         "eslint-junit": "^1.0.1",
-        "mocha": "^10.2.0",
-        "mocha-junit-reporter": "^2.2.0",
+        "mocha": "^10.3.0",
+        "mocha-junit-reporter": "^2.2.1",
         "should": "^13.2.3"
     }
 }

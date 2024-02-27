@@ -6,8 +6,8 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 16
-      python: 3.9
+      nodejs: 20
+      python: 3.12
   build:
     on-failure: ABORT
     commands:
