@@ -20,7 +20,7 @@ module "this" {
     function_name = var.name
     description   = var.description
     handler       = "src/index.handler"
-    runtime       = "nodejs20.x"
+    runtime       = local.partition == "aws" ? "nodejs20.x" : "nodejs18.x"
     memory_size   = 128
     timeout       = 30
 
