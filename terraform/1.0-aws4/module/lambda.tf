@@ -6,7 +6,7 @@ data "aws_s3_object" "this" {
     count = var.deploy_s3zip == null ?  0 : 1
 
     bucket = var.deploy_s3zip.bucket
-    key    = "${var.deploy_s3zip.prefix}cweventFormat/${var.environment}.zip"
+    key    = "${var.deploy_s3zip.prefix}cweventFormat/${var.deploy_s3zip.latest ? "latest" : var.environment}.zip"
 }
 
 # =========================================================

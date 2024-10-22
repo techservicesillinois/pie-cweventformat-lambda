@@ -59,10 +59,16 @@ variable "deploy_localzip" {
 variable "deploy_s3zip" {
     type        = object({
                     bucket = string
-                    prefix = string
+                    prefix = optional(string, "")
+                    latest = optional(bool, false)
                 })
     description = "S3 bucket and prefix to the cweventFormat/environment.zip file to deploy."
     default     = null
+
+    validation {
+        condition     = var.deploy_s3zip == null ? true : can(regex("^(.+/)?$", var.deploy_s3zip.prefix))
+        error_message = "Prefix must be empty or end with a '/'."
+    }
 }
 
 variable "function_tags" {
