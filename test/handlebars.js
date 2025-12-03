@@ -6,12 +6,12 @@ const EVENTS = require('./fixtures/events');
 describe('handlebars', function () {
     let handlebars;
     before('init handlebars', async function () {
-        handlebars = await require('../src/handlebars')();
+        this.handlebars = await require('../src/handlebars')();
     });
 
     describe('#getTemplateFiles', function () {
         it('default templates', async function () {
-            const files = await handlebars.getTemplateFiles('foo', 'Hello World');
+            const files = await this.handlebars.getTemplateFiles('foo', 'Hello World');
 
             files.should.eql({
                 '_subject_': 'default._subject_.hbs',
@@ -20,7 +20,7 @@ describe('handlebars', function () {
         });
 
         it('aws.ecs/default templates', async function () {
-            const files = await handlebars.getTemplateFiles('aws.ecs', 'Hello World');
+            const files = await this.handlebars.getTemplateFiles('aws.ecs', 'Hello World');
 
             files.should.eql({
                 '_subject_': 'default._subject_.hbs',
@@ -29,7 +29,7 @@ describe('handlebars', function () {
         });
 
         it('aws.ecs/ECS Task State Change templates', async function () {
-            const files = await handlebars.getTemplateFiles('aws.ecs', 'ECS Task State Change');
+            const files = await this.handlebars.getTemplateFiles('aws.ecs', 'ECS Task State Change');
 
             files.should.eql({
                 '_subject_': 'aws.ecs/ECS Task State Change._subject_.hbs',
@@ -42,7 +42,7 @@ describe('handlebars', function () {
     describe('#render', function () {
         for (const [eventIdx, event] of EVENTS.entries()) {
             it(`check EVENTS[${eventIdx}]`, async function () {
-                const message = await handlebars.render(event.data);
+                const message = await this.handlebars.render(event.data);
                 message.should.eql(event.expected);
             });
         }

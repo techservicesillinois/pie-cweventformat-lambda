@@ -15,12 +15,12 @@ data "aws_s3_object" "this" {
 
 module "this" {
     source  = "terraform-aws-modules/lambda/aws"
-    version = "7.21.1"
+    version = "8.1.2"
 
     function_name = var.name
     description   = var.description
     handler       = "src/index.handler"
-    runtime       = "nodejs22.x"
+    runtime       = "nodejs24.x"
     memory_size   = 128
     timeout       = 30
     function_tags = var.function_tags

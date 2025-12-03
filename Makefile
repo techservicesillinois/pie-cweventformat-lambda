@@ -1,5 +1,5 @@
 APP_NAME   := cweventFormat
-NPMBIN     := npm
+NODEVER    := 24.11.1
 PYTHONBIN  := python3.12
 BUILDDIR   := $(PWD)/build/
 DISTDIR    := $(PWD)/dist/
@@ -19,35 +19,38 @@ __check_defined = \
 		$(error Undefined $1$(if $2, ($2))))
 
 clean:
+	rm -fr -- .venv || :
 	rm -fr -- node_modules || :
 	rm -fr -- "$(BUILDDIR)" || :
 	rm -fr -- "$(DISTDIR)" || :
 	rm -fr -- "$(REPORTSDIR)" || :
 
-build:
+build: .venv-install
 	[ -e "$(BUILDDIR)" ] || mkdir -p "$(BUILDDIR)"
 	rsync -R package*.json *.md "$(BUILDDIR)"
-	$(NPMBIN) install --production --prefix "$(BUILDDIR)"
+	. .venv/bin/activate && npm install --production --prefix "$(BUILDDIR)"
 	rsync -av --delete src/. "$(BUILDDIR)/src/"
 
-.npm-install:
-	$(NPMBIN) install
+.npm-install: .venv-install
+	. .venv/bin/activate && npm install
 
 .venv-install:
 	[ -e .venv ] || $(PYTHONBIN) -mvenv .venv
 	.venv/bin/pip install -qq -r scripts/requirements.txt
+	.venv/bin/pip install -qq nodeenv
+	[ -e .venv/bin/npm ] || .venv/bin/nodeenv -p -n $(NODEVER)
 
 lint: .npm-install
-	$(NPMBIN) run-script lint
+	. .venv/bin/activate && npm run-script lint
 lint-report: .npm-install
 	[ -e "$(REPORTSDIR)" ] || mkdir -p "$(REPORTSDIR)"
-	$(NPMBIN) run-script lint -- --format=junit > "$(REPORTSDIR)/eslint.xml"
+	. .venv/bin/activate && npm run-script lint -- --format=junit > "$(REPORTSDIR)/eslint.xml"
 
 test: .npm-install
-	$(NPMBIN) run-script test
+	. .venv/bin/activate && npm run-script test
 test-report: .npm-install
 	[ -e "$(REPORTSDIR)" ] || mkdir -p "$(REPORTSDIR)"
-	$(NPMBIN) run-script test -- --reporter mocha-junit-reporter --reporter-options mochaFile="$(REPORTSDIR)/mocha.xml"
+	. .venv/bin/activate && npm run-script test -- --reporter mocha-junit-reporter --reporter-options mochaFile="$(REPORTSDIR)/mocha.xml"
 
 dist: build
 	[ -e "$(DISTDIR)" ] || mkdir -p "$(DISTDIR)"
